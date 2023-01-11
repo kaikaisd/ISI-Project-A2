@@ -1,2 +1,14 @@
 # ISI-Project-A2
-For ISI Project
+
+---
+
+## Requirement
+### Frontend
+- vue.js
+- <UI Framework to be discussed>
+
+### Backend
+- Laravel w/ Lunar
+
+
+
