@@ -5,15 +5,15 @@
 ## Requirement
 - ### Frontend
     - vue.js
-    - UI Framework to be discussed
+    - [Vuetify](https://vuetifyjs.com/)
 
 - ### Backend
-    - Laravel w/ Lunar
+    - Laravel Self-Build
 
 ## Documents
 - ### Backend
-    - [Lunar](https://docs.lunarphp.io/)
     - [Laravel structure](https://learnku.com/docs/laravel/9.x)
 
 - ### FrontEnd
-    - 
+    - [Vue.js](https://vuejs.org/)
+    - [Vuetify](https://vuetifyjs.com/)
