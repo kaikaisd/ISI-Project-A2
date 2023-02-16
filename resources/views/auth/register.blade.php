@@ -76,9 +76,27 @@
                                     class="col-md-4 col-form-label text-md-end">{{ __('Address') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="address" name="address" type="textarea"
-                                        class="form-control @error('address') is-invalid @enderror" name="address"
-                                        value="{{ old('address') }}" required autocomplete="address" autofocus>
+                                    <!-- Address 1 -->
+                                    <input id="address1" type="text"
+                                        class="form-control @error('address1') is-invalid @enderror" name="address1"
+                                        value="{{ old('address1') }}" required autocomplete="address1" autofocus>
+                                    <!-- Address 2 -->
+                                    <input id="address2" type="text"
+                                        class="form-control @error('address2') is-invalid @enderror" name="address2"
+                                        value="{{ old('address2') }}" required autocomplete="address2" autofocus>
+                                    <!-- City -->
+                                    <input id="city" type="text"
+                                        class="form-control @error('city') is-invalid @enderror" name="city"
+                                        value="{{ old('city') }}" required autocomplete="city" autofocus>
+                                    <!-- State -->
+                                    <input id="state" type="text"
+                                        class="form-control @error('state') is-invalid @enderror" name="state"
+                                        value="{{ old('state') }}" required autocomplete="state" autofocus>
+                                    <!-- Zip -->
+                                    <input id="zip" type="number" 
+                                        class="form-control @error('zip') is-invalid @enderror" name="zip"
+                                        value="{{ old('zip') }}" inputmode="numeric" step="1" required autocomplete="zip" autofocus>
+                                    
                                 </div>
                             </div>
 
