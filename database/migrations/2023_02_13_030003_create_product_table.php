@@ -15,16 +15,19 @@ return new class extends Migration
     {
         Schema::create('product', function (Blueprint $table) {
             $table->id();
-            $table->foreign('vendor_id')->references('id')->on('vendor');
             $table->string('name');
             $table->longText('description');
             $table->decimal('price', 8, 2);
             $table->integer('quantity');
             $table->longText('pic');
+            $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('brand_id');
             $table->foreign('category_id')->references('id')->on('category');
-            $table->foreign('brand')->references('id')->on('brand');
+            $table->foreign('brand_id')->references('id')->on('brand');
             $table->boolean('isOnSale');
             $table->boolean('isOverSale');
+            $table->boolean('isPromotion');
+            $table->decimal('promoPrice', 8, 2);
 
             $table->timestamps();
         });
@@ -37,6 +40,8 @@ return new class extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('product');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 };
