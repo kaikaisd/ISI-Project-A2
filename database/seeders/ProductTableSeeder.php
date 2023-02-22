@@ -14,6 +14,8 @@ class ProductTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        DB::table('product')->insert([
+            
+        ])
     }
 }

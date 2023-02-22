@@ -19,7 +19,7 @@ class UserTableSeeder extends Seeder
             'name' => Str::random(10),
             'email' => Str::random(10).'@test.com',
             'password' => Hash::make('password'),
-            'address' => Str::random(10).'|'.Str::random(10).'|'.Str::random(10).'|'.Str::random(10).'|'.mt_rand(100000, 999999),
+            'address' => Str::random(10).'|'.Str::random(10).'|'.Str::random(10).'|'.Str::random(10).'|'.Str::random(10),
             'role' => mt_rand(1, 3),
         ]);
     }
