@@ -73,6 +73,12 @@ class ProductFactory extends Factory
             'isOverSale' => mt_rand(0, 1),
             'isPromotion' => mt_rand(0, 1),
             'promoPrice' => mt_rand(1000.00, 100000.00),
+            'author' => fake()->name(),
+            'publisher' => fake()->company(),
+            'isbn' => fake()->isbn13(),
+            'pages' => mt_rand(100, 1000),
+            'release_date' => $this->faker->dateTimeBetween('-1 years', 'now'),
+
         ];
     }
 }
