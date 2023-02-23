@@ -28,7 +28,11 @@ return new class extends Migration
             $table->boolean('isOverSale');
             $table->boolean('isPromotion');
             $table->decimal('promoPrice', 8, 2);
-
+            $table->text('author')->nullable();
+            $table->text('publisher')->nullable();
+            $table->text('ISBN')->nullable();
+            $table->date('release_date')->nullable();
+            $table->integer('pages')->nullable();
             $table->timestamps();
         });
     }

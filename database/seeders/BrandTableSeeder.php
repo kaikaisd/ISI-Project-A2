@@ -15,7 +15,7 @@ class BrandTableSeeder extends Seeder
     public function run()
     {
         DB::table('brand')->insert([
-            'name' => ['湊川あい', '掌田 津耶乃', '溝尾 良隆' , '' , '尾田栄一郎'],
+            'name' => ['湊川あい', '掌田 津耶乃', '溝尾 良隆' , 'ASDF' , '尾田栄一郎'],
         ]);
     }
 }
