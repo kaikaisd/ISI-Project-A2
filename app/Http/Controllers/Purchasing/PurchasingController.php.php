@@ -11,4 +11,13 @@ class PurchasingController extends Controller
     {
         return view('purchasing.index');
     }
+
+    public function formStep()
+    {
+        return view('purchasing.step');
+    }
+
+    public function store(){
+        
+    }
 }

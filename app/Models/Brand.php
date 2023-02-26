@@ -9,6 +9,10 @@ class Brand extends Model
 {
     use HasFactory;
 
+    protected $table = 'brand';
+
+    public $timestamps = false;
+
     /**
      * The attributes that are mass assignable.
      *

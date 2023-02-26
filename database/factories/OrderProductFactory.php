@@ -17,7 +17,10 @@ class OrderProductFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'order_id' => $this->faker->numberBetween(1, 10),
+            'product_id' => $this->faker->numberBetween(1, 10),
+            'quantity' => $this->faker->numberBetween(1, 10),
+            'price' => fake()->randomFloat(2, 1, 100000)
         ];
     }
 }

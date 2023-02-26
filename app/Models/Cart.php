@@ -5,34 +5,26 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Comment extends Model
+class Cart extends Model
 {
     use HasFactory;
 
-    protected $table = 'comment';
+    protected $table = 'cart';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'user_id',
         'product_id',
-        'content',
-        'rating',
+        'quantity',
+        'price',
     ];
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
 
     public function product()
     {
         return $this->belongsTo(Product::class);
     }
 
-
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 
 }

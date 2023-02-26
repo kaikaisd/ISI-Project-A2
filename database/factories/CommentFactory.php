@@ -20,7 +20,7 @@ class CommentFactory extends Factory
             'user_id' => $this->faker->numberBetween(1, 10),
             'product_id' => $this->faker->numberBetween(1, 10),
             'order_id' => $this->faker->numberBetween(1, 10),
-            'content' => $this->faker->text(100),
+            'reviews' => $this->faker->text(100),
             'rating' => $this->faker->numberBetween(1.0, 5.0),
         ];
     }

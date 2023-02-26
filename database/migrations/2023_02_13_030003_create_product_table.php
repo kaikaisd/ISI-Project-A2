@@ -19,7 +19,6 @@ return new class extends Migration
             $table->longText('description');
             $table->decimal('price', 8, 2);
             $table->integer('quantity');
-            $table->longText('pic');
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('brand_id');
             $table->foreign('category_id')->references('id')->on('category');

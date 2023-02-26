@@ -2,7 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Product;
+use App\Models\ProductPicture;
 use Illuminate\Database\Seeder;
 
 class ProductTableSeeder extends Seeder
@@ -14,8 +15,9 @@ class ProductTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('product')->insert([
-            
-        ])
+        Product::factory()
+        ->count(10)
+        ->has(ProductPicture::factory()->count(5))
+        ->create();
     }
 }
