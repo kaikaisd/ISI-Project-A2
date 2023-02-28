@@ -19,7 +19,6 @@ return new class extends Migration
             $table->longText('description');
             $table->decimal('price', 8, 2);
             $table->integer('quantity');
-            $table->longText('pic');
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('brand_id');
             $table->foreign('category_id')->references('id')->on('category');
@@ -28,7 +27,11 @@ return new class extends Migration
             $table->boolean('isOverSale');
             $table->boolean('isPromotion');
             $table->decimal('promoPrice', 8, 2);
-
+            $table->text('author')->nullable();
+            $table->text('publisher')->nullable();
+            $table->text('ISBN')->nullable();
+            $table->date('release_date')->nullable();
+            $table->integer('pages')->nullable();
             $table->timestamps();
         });
     }

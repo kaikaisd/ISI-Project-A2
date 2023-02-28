@@ -5,10 +5,16 @@
 1. clone this project to your pc
 2. copy `.env.example` to `.env`
 3. `php artisan key:generate`
-4. `sail up -d` For set the docker container
-5. `sail npm i` For install the node modules
-6. `sail npm run dev` For run the development mode
-7. Use your browser to `http://localhost` to see the result
+4. Run `alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'` in your terminal if `sail` command not found
+5. `sail up -d` For set the docker container
+6. `sail npm i` For install the node modules
+7. `sail npm run dev` For run the development mode
+8. Use your browser to `http://localhost` to see the result
+
+---
+# How to seeding data
+`sail artisan migrate:fresh --seed` use this command to seeding and migrate data
+
 
 ---
 

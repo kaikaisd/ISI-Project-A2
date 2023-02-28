@@ -79,23 +79,27 @@
                                     <!-- Address 1 -->
                                     <input id="address1" type="text"
                                         class="form-control @error('address1') is-invalid @enderror" name="address1"
-                                        value="{{ old('address1') }}" required autocomplete="address1" autofocus>
+                                        value="{{ old('address1') }}" required autocomplete="address1" placeholder="Floor / Building" autofocus>
                                     <!-- Address 2 -->
+                                    <br/>
                                     <input id="address2" type="text"
                                         class="form-control @error('address2') is-invalid @enderror" name="address2"
-                                        value="{{ old('address2') }}" required autocomplete="address2" autofocus>
+                                        value="{{ old('address2') }}" required autocomplete="address2" placeholder="Street" autofocus>
                                     <!-- City -->
+                                    <br/>
                                     <input id="city" type="text"
                                         class="form-control @error('city') is-invalid @enderror" name="city"
-                                        value="{{ old('city') }}" required autocomplete="city" autofocus>
+                                        value="{{ old('city') }}" required autocomplete="city" placeholder="City" autofocus>
                                     <!-- State -->
+                                    <br/>
                                     <input id="state" type="text"
                                         class="form-control @error('state') is-invalid @enderror" name="state"
-                                        value="{{ old('state') }}" required autocomplete="state" autofocus>
+                                        value="{{ old('state') }}" required autocomplete="state" placeholder="State" autofocus>
                                     <!-- Zip -->
+                                    <br/>
                                     <input id="zip" type="number" 
                                         class="form-control @error('zip') is-invalid @enderror" name="zip"
-                                        value="{{ old('zip') }}" inputmode="numeric" step="1" required autocomplete="zip" autofocus>
+                                        value="{{ old('zip') }}" inputmode="numeric" step="1" required placeholder="Zip Code" autocomplete="zip" autofocus>
                                     
                                 </div>
                             </div>
