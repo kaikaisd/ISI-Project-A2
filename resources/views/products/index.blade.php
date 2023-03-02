@@ -45,6 +45,7 @@
                             <button class="btn btn-outline-dark" type="submit">
                                 <i class="bi-cart-fill me-1"></i>
                                 <!-- view all of shopping cart -->
+                                <img src="https://img.icons8.com/ios/50/000000/shopping-cart.png" width="20" height="20" class="img-responsive"/>
                                 <a href="{{ route('cart') }}" class="btn btn-primary btn-block">Cart</a>
                                 <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
                             </button>
