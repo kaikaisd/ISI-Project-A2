@@ -1,0 +1,34 @@
+.cart {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 100; 
+}
+
+.slider-container {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .slider {
+    width: 2000px; /* Set width to be at least the sum of all image widths */
+    position: absolute;
+    animation: slide 20s linear infinite;
+  }
+
+  .slider img {
+    float: left;
+    width: 500px;
+    height: 200px;
+  }
+
+  @keyframes slide {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-2000px); /* Set to be the same as slider width */
+    }
+  }

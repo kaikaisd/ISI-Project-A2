@@ -20,7 +20,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-// Route::get('/product')->name('product');
+Route::get('/products', [App\Http\Controllers\ProductsController::class, 'index'])->name('product.index');
 // Route::get('/product/{id}')->name('product.detail');
 
 // Route::group(['prefix'=>'/cart'],function(){
