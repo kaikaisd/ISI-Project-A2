@@ -17,6 +17,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+route::get('/hello', function () {
+    return 'Hello World';
+}); //用於檢查是否有連線到網站
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
