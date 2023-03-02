@@ -23,8 +23,8 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    <img src="{{ asset('images/OnlineShoppingLogo.svg') }}" alt="PingMainPM" width="100" height="100">
-                    {{ config('app.name', 'Power Form P.M') }}
+                    <img src="{{ asset('images/OnlineShoppingLogo.svg') }}" alt="L.T" width="100" height="100">
+                    {{ config('app.name', 'Literary Tea Room') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -75,6 +75,9 @@
                             </div>
                         </li>
                         @endguest
+                        <button class="btn btn-outline-warning" type="submit">                 
+                            <a href="{{ route('cart') }}" ><img src="{{ asset('images/bag-fill.svg') }}" alt="cart" width="30" height="30"></a>
+                        </button>
                     </ul>
                 </div>
             </div>
