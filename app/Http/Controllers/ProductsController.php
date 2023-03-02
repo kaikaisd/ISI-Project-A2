@@ -8,8 +8,9 @@ use App\Models\Product;
 class ProductsController extends Controller
 {
     public function index()
-    {//display products id products
-        $products = 'products';
+    {
+        //$productts = Product::all();
+        $products = '';
         return view('products.index', compact('products'));
     }
 
@@ -20,7 +21,7 @@ class ProductsController extends Controller
 
       public function cart()
       {
-          return view('cart');
+          return view('cartItem.cart');
       }
 
       public function addToCart($id)
@@ -42,6 +43,32 @@ class ProductsController extends Controller
           
         session()->put('cart', $cart);
         return redirect()->back()->with('success', 'Product added to cart successfully!');
+    }
+    public function update(Request $request)
+    {
+        if($request->id && $request->quantity){
+            $cart = session()->get('cart');
+            $cart[$request->id]["quantity"] = $request->quantity;
+            session()->put('cart', $cart);
+            session()->flash('success', 'Cart updated successfully');
+        }
+    }
+  
+    /**
+     * Write code on Method
+     *
+     * @return response()
+     */
+    public function remove(Request $request)
+    {
+        if($request->id) {
+            $cart = session()->get('cart');
+            if(isset($cart[$request->id])) {
+                unset($cart[$request->id]);
+                session()->put('cart', $cart);
+            }
+            session()->flash('success', 'Product removed successfully');
+        }
     }
 }
 

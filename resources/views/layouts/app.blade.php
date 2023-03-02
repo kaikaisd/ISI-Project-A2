@@ -84,14 +84,6 @@
             @yield('content')
         </main>
     </div>
-    <div class="slider-container">
-  <div class="slider">
-  <img src="{{ asset('images/MSI.jpg') }}">
-  <img src="{{ asset('images/ROG.png') }}">
-  <img src="{{ asset('images/gigabyte.jpg') }}">
-    <!-- Add more images here -->
-  </div>
-</div>
 </body>
 
 </html>
