@@ -10,15 +10,15 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
-        //return view('products.index', compact('products'));
-        return view('products.index', ['products' => $products]);
+        return view('products.index', compact('products'));
     }
-
-  /*  public function show($id)
+}
+    /*public function show($id)
     {
       $product = Product::with(['brand', 'category', 'order'])->find($id);
-      return view('products.show', compact('product'));}*/
-
+      return view('products.show', compact('product'));
+    }
+    
       public function cart()
       {
           return view('cartItem.cart');
@@ -58,7 +58,7 @@ class ProductController extends Controller
      * Write code on Method
      *
      * @return response()
-     */
+     
     public function remove(Request $request)
     {
         if($request->id) {
@@ -70,6 +70,6 @@ class ProductController extends Controller
             session()->flash('success', 'Product removed successfully');
         }
     }
-}
 
+*/
 
