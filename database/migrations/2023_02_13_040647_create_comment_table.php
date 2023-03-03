@@ -21,7 +21,7 @@ return new class extends Migration
             $table->foreign('order_id')->references('id')->on('order');
             $table->foreign('product_id')->references('id')->on('product');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->longText('comment');
+            $table->longText('reviews');
             $table->decimal('rating', 1, 1);
             $table->timestamps();
         });

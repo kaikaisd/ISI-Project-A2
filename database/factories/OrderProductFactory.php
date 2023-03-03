@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
  */
-class CommentFactory extends Factory
+class OrderProductFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,11 +17,10 @@ class CommentFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => $this->faker->numberBetween(1, 10),
-            'product_id' => $this->faker->numberBetween(1, 10),
             'order_id' => $this->faker->numberBetween(1, 10),
-            'reviews' => $this->faker->text(100),
-            'rating' => $this->faker->numberBetween(1.0, 5.0),
+            'product_id' => $this->faker->numberBetween(1, 10),
+            'quantity' => $this->faker->numberBetween(1, 10),
+            'price' => fake()->randomFloat(2, 1, 100000)
         ];
     }
 }

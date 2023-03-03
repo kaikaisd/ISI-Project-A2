@@ -9,8 +9,6 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $table = 'product';   
-
     /**
      * The attributes that are mass assignable.
      *
@@ -22,7 +20,6 @@ class Product extends Model
         'description',
         'brand_id',
         'category_id',
-        'pic',
         'quantity',
         'isOnSale',
         'isOverSale',
@@ -43,6 +40,16 @@ class Product extends Model
     public function order()
     {
         return $this->belongsToMany(Order::class);
+    }
+
+    public function productPicture()
+    {
+        return $this->hasMany(ProductPicture::class);
+    }
+
+    public function cart()
+    {
+        return $this->hasMany(Cart::class);
     }
 
 }

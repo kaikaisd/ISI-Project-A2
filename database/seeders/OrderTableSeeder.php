@@ -4,9 +4,10 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Brand;
+use App\Models\Order;
+use App\Models\OrderProduct;
 
-class BrandTableSeeder extends Seeder
+class OrderTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,9 +16,6 @@ class BrandTableSeeder extends Seeder
      */
     public function run()
     {
-        // DB::table('brands')->insert([
-        //     'name' => ['Tools Book', 'Manga', 'Travel Book'],
-        // ]);
-        Brand::factory()->count(10)->create();
+        Order::factory()->count(10)->has(OrderProduct::factory()->count(10))->create();
     }
 }

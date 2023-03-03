@@ -9,6 +9,8 @@ class Order extends Model
 {
     use HasFactory;
 
+    protected $table = 'order';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -16,9 +18,6 @@ class Order extends Model
      */
     protected $fillable = [
         'user_id',
-        'product_id',
-        'quantity',
-        'totalPrice',
         'status',
     ];
 
@@ -27,8 +26,8 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function product()
+    public function orderProduct()
     {
-        return $this->belongsToMany(Product::class);
+        return $this->hasMany(Product::class);
     }
 }

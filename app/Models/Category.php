@@ -9,6 +9,10 @@ class Category extends Model
 {
     use HasFactory;
 
+    protected $table = 'category';
+    
+    public $timestamps = false;
+
     /**
      * The attributes that are mass assignable.
      *
