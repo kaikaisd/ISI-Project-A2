@@ -14,7 +14,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('layouts.app');
+    $controller = new App\Http\Controllers\WelcomeController();
+    return $controller->index();
 });
 
 Auth::routes();
