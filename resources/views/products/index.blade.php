@@ -32,18 +32,22 @@
 
                     </div>
                     <!-- Product actions-->
-                    <form action=" {{ route('cart.add') }}" method="post">
+                    <form action="{{ route('cart.add', $product->id ) }}" method="post">
+                        @csrf
                         <input type="hidden" name="product_id" value="{{ $product->id }}">
-                        <button class="button-hover-addcart button"><span>Add to cart</span><i
-                                class="bi bi-cart-plus"></i></a></button>
+                        <button class="button-hover-addcart button"><span>Add to cart</span><img
+                                src="{{ asset('images/shopping-cart-add.svg') }}" width="20" height="20"
+                                class="img-responsive" />
+                        </button>
                     </form>
                 </div>
 
             </div>
             @endforeach
         </div>
-        <form class="d-flex">
+   
 
+        <form class="d-flex">
             <div class="cart">
                 <div id="app">
                     <div class="cart-container">
@@ -52,8 +56,10 @@
                             <!-- view all of shopping cart -->
                             <img src="https://img.icons8.com/ios/50/000000/shopping-cart.png" width="30" height="30"
                                 class="img-responsive" />
-                            <a href="{{ route('cart') }}" class="btn btn-primary btn-block">Cart</a>
-                            <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                            <a href="{{ route('cart.index') }}" class="btn btn-primary btn-block">Cart</a>
+                            <span class="badge bg-dark text-white ms-1 rounded-pill">
+                        
+                            </span>
                         </button>
                     </div>
                 </div>
@@ -61,5 +67,5 @@
 
         </form>
     </div>
-</section>
 @endsection
+</section>

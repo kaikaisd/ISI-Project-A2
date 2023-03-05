@@ -78,7 +78,7 @@
                         </li>
                         @endguest
                         <button class="btn btn-outline-warning" type="submit">                 
-                            <a href="{{ route('cart') }}" ><img src="{{ asset('images/bag-fill.svg') }}" alt="cart" width="30" height="30"></a>
+                            <a href="{{ route('cart.index') }}" ><img src="{{ asset('images/bag-fill.svg') }}" alt="cart" width="30" height="30"></a>
                         </button>
                     </ul>
                 </div>
