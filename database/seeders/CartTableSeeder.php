@@ -4,10 +4,9 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Order;
-use App\Models\OrderProduct;
+use App\Models\Cart;
 
-class OrderTableSeeder extends Seeder
+class CartTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,6 +15,6 @@ class OrderTableSeeder extends Seeder
      */
     public function run()
     {
-        Order::factory()->count(50)->has(OrderProduct::factory()->count(50))->create();
+        Cart::factory()->count(50)->create();
     }
 }

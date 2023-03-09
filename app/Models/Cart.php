@@ -11,11 +11,12 @@ class Cart extends Model
 
     protected $table = 'cart';
 
+    public $timestamps = false;
+
     protected $fillable = [
         'user_id',
         'product_id',
         'quantity',
-        'price',
     ];
 
     public function product()
@@ -26,5 +27,5 @@ class Cart extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
-
+    
 }
