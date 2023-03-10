@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id('id');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
+            $table->decimal('price', 10, 2);
             $table->integer('status');
             $table->timestamps();
         });

@@ -8,13 +8,16 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title','Index') - {{ config('app.name', 'Laravel') }}</title>
+    <title>@yield('title', 'Index') - {{ config('app.name', 'Laravel') }}</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    @yield('scripts')
+
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js', 'resources/css/app.css'])
@@ -27,7 +30,9 @@
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
@@ -35,8 +40,10 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
                         <form class="d-flex center" action="{{ route('index') }}" method="GET" role="search">
-                            <input class="form-control me-2" type="search" placeholder="search" aria-label="search" name="search" id="search">
-                            <button class="btn btn-outline-success" onclick="e.preventDefault(); this.form[0].submit();" type="submit">search</button>
+                            <input class="form-control me-2" type="search" placeholder="search" aria-label="search"
+                                name="search" id="search">
+                            <button class="btn btn-outline-success" onclick="e.preventDefault(); this.form[0].submit();"
+                                type="submit">search</button>
                         </form>
                     </ul>
 
@@ -48,44 +55,46 @@
                                 <i class="fa-solid fa-cart-shopping"></i>
                                 &nbsp;
                                 @if (auth()->check())
-                                <span class="badge bg-danger rounded-pill">{{ $cart }}</span>
+                                    <span class="badge bg-danger rounded-pill">{{ $carts }}</span>
                                 @endif
                             </a>
                         </li>
                         &nbsp;
                         @guest
-                        
-                        @if (Route::has('login'))
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                        </li>
-                        @endif
 
-                        @if (Route::has('register'))
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                        </li>
-                        @endif
+                            @if (Route::has('login'))
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                </li>
+                            @endif
+
+                            @if (Route::has('register'))
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                </li>
+                            @endif
                         @else
-                        <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                {{ Auth::user()->name }}
-                            </a>
-
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('user.index') }}">
-                                    {{ __('Profile') }}
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    {{ Auth::user()->name }}
                                 </a>
-                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('user.index') }}">
+                                        {{ __('Profile') }}
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
-                                </a>
+                                        {{ __('Logout') }}
+                                    </a>
 
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                    @csrf
-                                </form>
-                            </div>
-                        </li>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
+                                </div>
+                            </li>
                         @endguest
                     </ul>
                 </div>
@@ -97,5 +106,5 @@
         </main>
     </div>
 </body>
-@yield('scripts')
+
 </html>

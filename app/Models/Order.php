@@ -30,4 +30,20 @@ class Order extends Model
     {
         return $this->hasMany(OrderProduct::class);
     }
+
+    public static function statusFormat($status)
+    {
+        switch ($status) {
+            case -1:
+                return 'Cancelled';
+            case 1:
+                return 'Pending';
+            case 2:
+                return 'Processing';
+            case 3:
+                return 'Completed';
+            default:
+                return 'Unknown';
+        }
+    }
 }

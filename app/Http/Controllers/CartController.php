@@ -14,9 +14,7 @@ class CartController extends Controller
     public function addCart(Request $request){
         $cart = Cart::query()->where('user_id', $request->user()->id)->where('product_id', $request->route('id'))->first();
         if ($cart){
-            $result = Cart::where('user_id', $request->user()->id)->where('product_id', $request->id)->update([
-                'quantity' => $cart->quantity + 1,
-            ]);
+            return redirect()->back()->with('warning', 'Product already exists in cart');
         }else{
             $result = Cart::create([
                 'user_id' => $request->user()->id,
@@ -30,45 +28,22 @@ class CartController extends Controller
         return redirect()->back()->with('error', 'Add to cart failed');
     }
 
-
     public function form()
     {
         if (!isset(auth()->user()->id)){
             return redirect()->route('home');
         }
-        $carts = Cart::where('user_id', auth()->user()->id)->get();
-        $totalPrice = $carts->sum(function ($carts) {
+        if (auth()->user()->role !== 1){
+            return redirect()->route('vendor.index');
+        }
+        $carts = Cart::where('user_id', auth()->user()->id)->count();
+        $cartItem = Cart::where('user_id', auth()->user()->id)->get();
+        $totalPrice = $cartItem->sum(function ($carts) {
             return $carts->quantity * $carts->product->price;
         });
+
         //dd($carts);
-        return view('cart.index', compact(['carts', 'totalPrice']));
-    }
-
-
-    public function store(Request $request){
-        dd($request->all());
-        $newOrder = new Order();
-        $newOrder->user_id = $request->user()->id;
-        $newOrder->status = 1;
-        $result = $newOrder->save();
-        if($result){
-            foreach ($request->product_id as $key => $value) {
-                $newOrderProduct = new OrderProduct();
-                $productData = Product::find($value);
-                $productData->quantity -= $request->quantity[$key];
-                $productData->save();
-                $newOrderProduct->order_id = $result->id;
-                $newOrderProduct->product_id = $value;
-                $newOrderProduct->quantity = $request->quantity[$key];
-                $newOrderProduct->price = $request->price[$key];
-                $results = $newOrderProduct->save();
-            }
-            if($results){
-                return redirect()->route('cart.result')->with('success', 'Order has been placed successfully');
-            }else{
-                return redirect()->route('cart.result')->with('error', 'Order has been placed failed');
-            }
-        }
+        return view('cart.index', compact(['carts','cartItem', 'totalPrice']));
     }
 
     public function destory(Request $request){

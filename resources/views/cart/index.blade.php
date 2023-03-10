@@ -4,9 +4,9 @@
 @section('content')
     <div class="container">
         @if (Auth::check())
-            <form action="{{ route('cart.store') }}"  method="POST" >
-								@method('POST')
-								@csrf
+            <form action="{{ route('order.store') }}" method="POST">
+                @method('POST')
+                @csrf
                 <div class="row">
                     <div class="col-md-8">
                         <h2>Checkout</h2>
@@ -22,7 +22,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($carts as $key)
+                                @foreach ($cartItem as $key)
                                     <tr>
                                         <td><img src="{{ $key->product->productPicture[0]->path }}" width="50"
                                                 alt="{{ $key->product->name }}"></td>
@@ -33,8 +33,12 @@
                                         <td>${{ $key->product->price }}</td>
                                         <td>${{ $key->product->price * $key->quantity }}</td>
                                         <td>
-																					<button type="button" class="btn btn-danger" onclick="deleteCart({{$key->product_id}})"><i class="fa-solid fa-trash"></i></button>
-																				</td>
+                                            <button type="button" class="btn btn-danger"
+                                                onclick="deleteCart({{ $key->product_id }})"><i
+                                                    class="fa-solid fa-trash"></i></button>
+																										&nbsp;
+																						<a href="{{ route('product.detail', ['id' => $key->product_id]) }}" class="btn btn-primary"><i class="fa-sharp fa-solid fa-eye"></i></a>
+                                        </td>
                                     </tr>
                                 @endforeach
                                 <tr>
@@ -58,10 +62,11 @@
                         </div>
                     </div>
                 </div>
-								<br/>
+                <br />
                 <div class="row">
                     <div class="col-md-12 d-grid gap-2">
-                        <button id="submit" type="submit" class="btn btn-primary btn-lg" onclick="this.disabled = true">Place Order</button>
+                        <button id="submit" type="submit" class="btn btn-primary btn-lg"
+                            onclick="this.disabled = true">Place Order</button>
                     </div>
                 </div>
             </form>
@@ -91,22 +96,31 @@
                 }
             });
         }
-				function deleteCart(pid) {
-						let uid = {{ auth()->user()->id }};
-						var url = "{{ route('cart.destroy') }}";
-						$.ajax({
-								url: url,
-								type: 'POST',
-								data: {
-										_token: '{{ csrf_token() }}',
-										_method: 'DELETE',
-										user_id: uid,
-										product_id: pid
-								},
-								success: function(data) {
-										location.reload();
-								}
-						});
-				}
+
+        function deleteCart(pid) {
+            let uid = {{ auth()->user()->id }};
+            var url = "{{ route('cart.destroy') }}";
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    _method: 'DELETE',
+                    user_id: uid,
+                    product_id: pid
+                },
+                success: function(data) {
+                    location.reload();
+                }
+            });
+        }
+        $(document).ready(function() {
+            $(window).keydown(function(event) {
+                if (event.keyCode == 13) {
+                    event.preventDefault();
+                    return false;
+                }
+            });
+        });
     </script>
 @endsection

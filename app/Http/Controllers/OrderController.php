@@ -2,11 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\Order;
+use App\Models\OrderProduct;
+use App\Models\Product;
 use Illuminate\Http\Request;
+
 
 class OrderController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,22 +24,13 @@ class OrderController extends Controller
      */
     public function index(Request $request)
     {
+        $carts = Cart::itemCount();
         $sort = $request->query('sort', 'created_at');
-        $order = $request->query('order', 'asc');        
+        $order = $request->query('order', 'asc');
         $user = auth()->user();
         $orders = Order::where('user_id', $user->id)->orderBy($sort, $order)->get();
-        return view('user.order', compact('orders', 'sort', 'order'));
 
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return view('order.index', compact('orders', 'sort', 'order','carts'));
     }
 
     /**
@@ -40,8 +41,54 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if (!isset(auth()->user()->id)) {
+            return redirect()->route('index');
+        }
+        $carts = Cart::where('user_id', auth()->user()->id)->get();
+        $totalPrice = $carts->sum(function ($carts) {
+            return $carts->quantity * $carts->product->price;
+        });
+        $newOrder = new Order();
+        $newOrder->user_id = $request->user()->id;
+        $newOrder->price = $totalPrice;
+        $newOrder->status = 1;
+        $result = $newOrder->save();
+        if ($result) {
+            foreach ($carts as $key => $value) {
+                $newOrderProduct = new OrderProduct();
+                $productData = Product::find($value->product_id);
+                $productData->quantity -= $value->quantity;
+                $productData->save();
+                $newOrderProduct->order_id = $newOrder->id;
+                $newOrderProduct->product_id = $value->product_id;
+                $newOrderProduct->quantity = $value->quantity;
+                $newOrderProduct->price = $value->product->price;
+                $results = $newOrderProduct->save();
+            }
+            if ($results) {
+                $result = 'success';
+                $orderId = $newOrder->id;
+                return redirect()->route('order.results', compact('orderId', 'result'))->with('success', 'Order has been placed successfully');
+            } else {
+                return redirect()->route('order.results', compact('results'))->with('message', 'Order has been placed failed');
+            }
+        }
     }
+
+    public function result(Request $request)
+    {
+        $carts = Cart::itemCount();
+        if (!isset(auth()->user()->id)) {
+            return redirect()->route('index');
+        }
+        if ($request->result) {
+            $result = $request->result;
+            $orderId = $request->orderId;
+            return view('order.result', compact('orderId', 'carts', 'result'));
+        }
+        return view('order.result');
+    }
+
 
     /**
      * Display the specified resource.
@@ -83,8 +130,15 @@ class OrderController extends Controller
      * @param  \App\Models\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Order $order)
+    public function cancel(Request $request, Order $order)
     {
-        //
+        if (!isset(auth()->user()->id)) {
+            return redirect()->route('index');
+        }
+        dd($request->route('id')); 
+        $order = Order::find($request->route('id'));
+        $order->status = -1;
+        $order->save();
+        return redirect()->route('order.index')->with('success', 'Order has been cancelled successfully');
     }
 }

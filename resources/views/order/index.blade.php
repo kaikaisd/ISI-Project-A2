@@ -2,88 +2,83 @@
 
 @section('content')
     <div class="container">
-        <h2>Orders</h2>
+        <h1>Order List</h1>
 
-        <table class="table">
+        <table class="table table-striped">
             <thead>
                 <tr>
                     <th>
-                        <a
-                            href="{{ request()->fullUrlWithQuery(['sort' => 'id', 'order' => $sort == 'id' && $order == 'asc' ? 'desc' : 'asc']) }}">
-                            Order ID
-                            @if ($sort == 'id')
-                                @if ($order == 'asc')
-                                    <i class="fa fa-sort-asc"></i>
-                                @else
-                                    <i class="fa fa-sort-desc"></i>
-                                @endif
-                            @else
-                                <i class="fa fa-sort"></i>
-                            @endif
+                        <a href="{{ route('order.index', ['sort' => 'id']) }}">
+                            ID
                         </a>
                     </th>
                     <th>
-                        <a
-                            href="{{ request()->fullUrlWithQuery(['sort' => 'status', 'order' => $sort == 'status' && $order == 'asc' ? 'desc' : 'asc']) }}">
+                        <a href="{{ route('order.index', ['sort' => 'status']) }}">
                             Status
-                            @if ($sort == 'status')
-                                @if ($order == 'asc')
-                                    <i class="fa fa-sort-asc"></i>
-                                @else
-                                    <i class="fa fa-sort-desc"></i>
-                                @endif
-                            @else
-                                <i class="fa fa-sort"></i>
-                            @endif
                         </a>
                     </th>
                     <th>
-                        <a
-                            href="{{ request()->fullUrlWithQuery(['sort' => 'created_at', 'order' => $sort == 'created_at' && $order == 'asc' ? 'desc' : 'asc']) }}">
-                            Ordered Date
-                            @if ($sort == 'created_at')
-                                @if ($order == 'asc')
-                                    <i class="fa fa-sort-asc"></i>
-                                @else
-                                    <i class="fa fa-sort-desc"></i>
-                                @endif
-                            @else
-                                <i class="fa fa-sort"></i>
-                            @endif
+                        <a href="{{ route('order.index', ['sort' => 'created_at']) }}">
+                            Created Date
                         </a>
                     </th>
-                    <th>
-                        <a
-                            href="{{ request()->fullUrlWithQuery(['sort' => 'updated_at', 'order' => $sort == 'updated_at' && $order == 'asc' ? 'desc' : 'asc']) }}">
-                            Last Update Date
-                            @if ($sort == 'updated_at')
-                                @if ($order == 'asc')
-                                    <i class="fa fa-sort-asc"></i>
-                                @else
-                                    <i class="fa fa-sort-desc"></i>
-                                @endif
-                            @else
-                                <i class="fa fa-sort"></i>
-                            @endif
-                        </a>
-                    </th>
-                    <th></th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
+                @if (count($orders) === 0)
+                    <tr>
+                        <td colspan="4">No orders found.</td>
+                    </tr>
+                @endif
                 @foreach ($orders as $order)
                     <tr>
                         <td>{{ $order->id }}</td>
                         <td>{{ $order->status }}</td>
-                        <td>{{ $order->created_at }}</td>
-                        <td>{{ $order->updated_at }}</td>
+                        <td>{{ $order->created_at->format('F j, Y') }}</td>
                         <td>
-                            <a href="{{ route('order.show', ['id' => $order->id]) }}" class="btn btn-primary">View
-                                Detail</a>
+                            <button class="btn btn-primary" type="button" data-toggle="collapse"
+                                data-target="#order-details-{{ $order->id }}" aria-expanded="false"
+                                aria-controls="order-details-{{ $order->id }}">
+                                Details
+                            </button>
+                            @if ($order->status === 1)
+                                <form action="{{ route('order.cancel', ['id' => $order->id]) }}" method="POST"
+                                    class="d-inline">
+                                    @csrf
+                                    <button class="btn btn-danger" type="submit">Delete</button>
+                                </form>
+                            @endif
+                        </td>
+                    </tr>
+                    <tr class="collapse" id="order-details-{{ $order->id }}">
+                        <td colspan="4">
+                            <div class="card card-body">
+                                <ul>
+                                    @foreach ($order->orderProduct as $item)
+                                        <li>
+                                            {{ $item->product->name }} ({{ $item->quantity }} x {{ $item->price }}) =
+                                            {{ $item->total_price }}
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
+@endsection
+
+@section('scripts')
+    <script>
+        $('[data-toggle="collapse"]').each(function() {
+            var target = $(this).data('target');
+            var $target = $(target);
+            $(this).click(function() {
+                $target.collapse('toggle');
+            });
+        });
+    </script>
 @endsection

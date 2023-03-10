@@ -29,11 +29,17 @@
                         <div class="card-body">
                             <h4 class="card-title">{{ $product->name }}</h4>
                             <p class="card-text">${{ $product->price }}</p>
+                            @guest
+                                <a href = "{{ route('login') }}" class="btn btn-primary">Login</a> 
+                            @else
                             <form action="{{ route('cart.add', ['id' => $product->id]) }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="quantity" value="1">
                                 <button type="submit" class="btn btn-primary">Add to Cart</button>
                             </form>
+                            @endguest
+                            &nbsp;
+                            <a href = "{{ route('product.detail', ['id' => $product->id]) }}" class="btn btn-primary">View Product</a>
                         </div>
                     </div>
                     <br />

@@ -28,4 +28,15 @@ class Cart extends Model
         return $this->belongsTo(User::class);
     }
     
+
+    public static function itemCount(){
+        if (!isset(auth()->user()->id)){
+            return 0;
+        }
+        if (auth()->user()->role !== 1){
+            return 0;
+        }
+        $carts = Cart::where('user_id', auth()->user()->id)->count();
+        return $carts;
+    }
 }

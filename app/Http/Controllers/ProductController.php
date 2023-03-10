@@ -16,13 +16,12 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
+        if (auth()->check() && $request->user()->role !== 1){
+            return redirect()->route('vendor.index');
+        }
         $query = Product::query();
         $brands = Brand::all();
-        if (auth()->check()) {
-            $cart = Cart::where('user_id', auth()->user()->id)->count();
-        } else {
-            $cart = null;
-        }
+        $carts = Cart::itemCount();
         $selectedBrand = $request->input('brand','all');
         // Apply brand filter if selected
         if ($request->has('brand')) {
@@ -55,7 +54,7 @@ class ProductController extends Controller
 
         $products = $query->paginate(8);
 
-        return view('index', compact('products', 'sort', 'brands','cart'));
+        return view('index', compact('products', 'sort', 'brands','carts'));
     }
 
     /**
@@ -112,5 +111,15 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         //
+    }
+
+    public function details(Request $request){
+        $carts = Cart::itemCount();
+
+        if ($request->route('id')) {
+            $product = Product::find($request->route('id'));
+            return view('productDetails', compact('product','carts'));
+        }
+
     }
 }

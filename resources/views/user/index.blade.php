@@ -13,6 +13,7 @@
                             <th>Order ID</th>
                             <th>Date</th>
                             <th>Total</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -28,12 +29,13 @@
                                     }
                                 @endphp
                                 <td>${{ $sum }}</td>
+                                <td style="font-size: 1.25rem;">{{$order->status}}</td>
                                 <td>
                                     <a href="{{ route('order.detail', $order->id) }}" class="btn btn-primary">
                                         <i class="fa-solid fa-eye"></i>
                                         </a>
                                             
-                                            @if($order->status == 1)
+                                            @if($order->status == 'Pending')
                                             <span>&nbsp;</span>
                                             <a href="{{ route('order.cancel', $order->id) }}" onClick="confirm('Do you want to cancel the order {{$order->id}} ?')" class="btn btn-danger"><i class="fa-solid fa-ban"></i></a>
                                             @endif</td>

@@ -6,16 +6,24 @@ use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Comment;
+use App\Models\Cart;
 
 class UserController extends Controller
 {
     public function index()
     {
+        $carts = Cart::itemCount();
         if (!isset(auth()->user()->id)){
             return redirect()->route('login');
         }
-        $orders = Order::where('user_id', auth()->user()->id)->limit(3)->orderByDesc('created_at')->get();
-        return view('user.index', compact('orders'));
+        $orders = Order::where('user_id', auth()->user()->id)->limit(3)->orderByDesc('created_at')->get()->map(function ($order){
+            // $order->total = $order->orderProducts->sum(function ($orderProduct){
+            //     return $orderProduct->quantity * $orderProduct->product->price;
+            // });
+            $order->status = Order::statusFormat($order->status);
+            return $order;
+        });
+        return view('user.index', compact('orders', 'carts'));
         # return view('user.index');
     }
 
