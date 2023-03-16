@@ -30,55 +30,28 @@
                     <tr>
                         <td colspan="4">No orders found.</td>
                     </tr>
-                @endif
+                @else
                 @foreach ($orders as $order)
                     <tr>
                         <td>{{ $order->id }}</td>
                         <td>{{ $order->status }}</td>
                         <td>{{ $order->created_at->format('F j, Y') }}</td>
                         <td>
-                            <button class="btn btn-primary" type="button" data-toggle="collapse"
-                                data-target="#order-details-{{ $order->id }}" aria-expanded="false"
-                                aria-controls="order-details-{{ $order->id }}">
+                            <a href="{{ route('order.detail',['id' => $order->id]) }}" class="btn btn-primary" >
                                 Details
-                            </button>
-                            @if ($order->status === 1)
+                            </a>
+                            @if ($order->status === 'Pending' || $order->status === 'On Hold')
                                 <form action="{{ route('order.cancel', ['id' => $order->id]) }}" method="POST"
                                     class="d-inline">
                                     @csrf
-                                    <button class="btn btn-danger" type="submit">Delete</button>
+                                    <button class="btn btn-danger" type="submit">Cancel</button>
                                 </form>
                             @endif
                         </td>
                     </tr>
-                    <tr class="collapse" id="order-details-{{ $order->id }}">
-                        <td colspan="4">
-                            <div class="card card-body">
-                                <ul>
-                                    @foreach ($order->orderProduct as $item)
-                                        <li>
-                                            {{ $item->product->name }} ({{ $item->quantity }} x {{ $item->price }}) =
-                                            {{ $item->total_price }}
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        </td>
-                    </tr>
                 @endforeach
+                @endif
             </tbody>
         </table>
     </div>
-@endsection
-
-@section('scripts')
-    <script>
-        $('[data-toggle="collapse"]').each(function() {
-            var target = $(this).data('target');
-            var $target = $(target);
-            $(this).click(function() {
-                $target.collapse('toggle');
-            });
-        });
-    </script>
 @endsection

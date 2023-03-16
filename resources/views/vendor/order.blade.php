@@ -11,13 +11,13 @@
                     <input type="text" name="id" id="id" class="form-control" value="{{ request('id') }}">
                 </div>
                 <div class="col-md-2">
-                    <label for="status">Order Status:</label>
+                    <label for="status">Order Status: {!! request('status') === 1 !!}</label>
                     <select name="status" id="status" class="form-control">
-                        <option value="">All</option>
-                        @foreach ($statuses as $status)
-                            <option value="{{ $status }}"{{ request('status') === $status ? ' selected' : '' }}>
-                                {{ ucfirst($status) }}</option>
-                        @endforeach
+                        <option value="" {{ request('status') == '' ? ' selected' : '' }}>All</option>
+                        <option value="-1" {!!  request('status') == '-1' ? ' selected' : '' !!}>Cenceled</option>
+                        <option value="1" {!!  request('status') == '1' ? ' selected' : '' !!}>Pending</option>
+                        <option value="2" {!! request('status') == '2' ? ' selected' : '' !!}>On Hold</option>
+                        <option value="3" {!! request('status') == '3' ? ' selected' : '' !!}>Delivered</option>
                     </select>
                 </div>
                 <div class="col-md-3">
@@ -26,12 +26,13 @@
                 </div>
                 <div class="col-md-3">
                     <label for="created_date">Created Date:</label>
-                    <div class="input-group">
-                        <input type="text" name="created_date" id="created_date" class="form-control"
-                            value="{{ request('created_date') }}">
-                        <div class="input-group-append">
-                            <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
-                        </div>
+                    <div class="input-group" id="created_datepicker">
+                        <input type="date" name="date" id="date" class="form-control"
+                            value="{{ request('created_at') }}">
+                            <span class="input-group-text bg-light d-block">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+
                     </div>
                 </div>
                 <div class="col-md-2">
@@ -60,22 +61,26 @@
                         <td>{{ $order->created_at }}</td>
                         <td>{{ $order->updated_at }}</td>
                         <td>
-                            <a href="{{ route('vendor.order.show', ['id' => $order->id]) }}"
-                                class="btn btn-primary btn-sm">Detail</a>
-                            <form action="{{ route('vendor.order.destroy', ['id' => $order->id]) }}" method="POST"
-                                style="display: inline-block;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                            </form>
+                            <a href="{{ route('vendor.order.detail', ['id' => $order->id]) }}"
+                                class="btn btn-primary btn-sm">Detail</a>&nbsp;
+                            @if ($order->status == 'Pending' || $order->status == 'On Hold' && $order->status != 'Completed' && $order->status != 'Canceled')
+                            <a href="{{ route('vendor.order.action', ['id' => $order->id, 'action' => 'hold']) }}" class="btn btn-warning btn-sm" onclick="alert('Do you want to hold this order?')"> Hold</a>&nbsp;
+                            <a href="{{ route('vendor.order.action', ['id' => $order->id, 'action' => 'done']) }}" class="btn btn-success btn-sm" onclick="alert('Do you want to ship this order?')"> Deliver</a>&nbsp;
+                            <a href="{{ route('vendor.order.action', ['id' => $order->id, 'action' => 'cancel']) }}" class="btn btn-danger btn-sm" onclick="alert('Do you want to cancel this order?')"> Cancel</a>
+                            @endif
+                            
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
+        <div class="d-flex justify-content-center">
+            {{ $orders->appends(request()->query())->links() }}
+            </div>
     </div>
 @endsection
 
 @section('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    
 @endsection

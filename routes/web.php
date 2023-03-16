@@ -38,14 +38,6 @@ Route::get('/product', function(){
 })->name('product');
 Route::get('/product/{id}', [ProductController::class,'details'])->name('product.detail');
 
-// Route::group(['prefix'=>'/cart'],function(){
-//     Route::get('/','CartController@index')->name('cart.index');
-//     Route::post('/add/{id}','CartController@add')->name('cart.add');
-//     Route::post('/update/{id}','CartController@update')->name('cart.update');
-//     Route::post('/remove/{id}','CartController@remove')->name('cart.remove');
-//     Route::post('/clear','CartController@clear')->name('cart.clear');
-// })->middleware('auth');
-
 Route::group(['prefix'=>'/cart'], function(){
     Route::get('/',[CartController::class, 'form'])->name('cart.index');
     Route::post('/add/{id}',[CartController::class, 'addCart'])->name('cart.add');
@@ -59,29 +51,30 @@ Route::group(['prefix'=>'/user'],function(){
 })->middleware('auth');
 
 Route::group(['prefix' => '/order'],function(){
+    if (auth()->check() && auth()->user()->role == 2){
+        return redirect('vendor');
+    }
     Route::post('/new',[OrderController::class, 'store'])->name('order.store');
     Route::get('/result',[OrderController::class, 'result'])->name('order.results');
     Route::get('/',[OrderController::class, 'index'])->name('order.index');
-    Route::get('/{id}',[OrderController::class, 'index'])->name('order.detail');
-    Route::post('/{id}/cancel',[OrderController::class, 'index'])->name('order.cancel');
+    Route::get('/{id}',[OrderController::class, 'detail'])->name('order.detail');
+    Route::get('/{id}/cancel',[OrderController::class, 'cancel'])->name('order.cancel');
     Route::get('/{id}/review',[OrderController::class, 'index'])->name('order.review');
     Route::post('/{id}/review',[OrderController::class, 'index'])->name('order.review');
 })->middleware('auth');
 
 Route::group(['prefix'=>'/vendor'],function(){
+
     Route::get('/',[VendorController::class,'index'])->name('vendor.index');
-    Route::get('/order',[VendorController::class,'orderList'])->name('vendor.order');
-    Route::get('/order/{id}',[VendorController::class,'orderDetail'])->name('vendor.order.detail');
-    Route::post('/order/{id}/accept',[VendorController::class,'orderDetail'])->name('vendor.order.accept');
-    Route::post('/order/{id}/update',[VendorController::class,'orderDetail'])->name('vendor.order.update');
-    Route::post('/order/{id}/reject',[VendorController::class,'orderDetail'])->name('vendor.order.reject');
+    Route::get('/order',[VendorController::class,'orderList'])->name('vendor.order.index');
+    Route::get('/order/{id}',[VendorController::class,'orderDetails'])->name('vendor.order.detail');
+    Route::get('/order/{id}/{action?}',[VendorController::class,'expressAction'])->name('vendor.order.action');
+    Route::post('/order/{id}/{action?}',[VendorController::class,'orderStore'])->name('vendor.order.action');
     Route::group(['prefix'=>'/product'],function(){
-        Route::get('/','VendorController@product')->name('vendor.product');
-        Route::get('/create',[VendorController::class,'productCreate'])->name('vendor.product.create');
-        Route::post('/create',[VendorController::class,'productStore'])->name('vendor.product.create');
-        Route::get('/{id}/edit',[VendorController::class,'productDetail'])->name('vendor.product.edit');
-        Route::post('/{id}/edit',[VendorController::class,'productDetail'])->name('vendor.product.edit');
-        Route::post('/{id}/delete',[VendorController::class,'productDelete'])->name('vendor.product.delete');
-        Route::post('/{id}/upload',[VendorController::class,'productUpload'])->name('vendor.product.upload');
-    });
+        Route::get('/',[VendorController::class,'productList'])->name('vendor.product.index');
+        Route::get('/{id}',[VendorController::class,'productDetails'])->name('vendor.product.action');
+        Route::get('/{id}/{action?}',[VendorController::class,'productDetails'])->name('vendor.product.action');
+        Route::get('/{id}/{action?}/{pid?}',[VendorController::class,'productStore'])->name('vendor.product.action');
+        Route::post('/{id}/{action?}/{pid?}',[VendorController::class,'productStore'])->name('vendor.product.action');
+    })->middleware('auth');
 })->middleware('auth');

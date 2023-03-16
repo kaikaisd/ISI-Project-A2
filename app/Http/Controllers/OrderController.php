@@ -7,7 +7,7 @@ use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Product;
 use Illuminate\Http\Request;
-
+use Laravel\Ui\Presets\React;
 
 class OrderController extends Controller
 {
@@ -29,7 +29,10 @@ class OrderController extends Controller
         $order = $request->query('order', 'asc');
         $user = auth()->user();
         $orders = Order::where('user_id', $user->id)->orderBy($sort, $order)->get();
-
+        $orders->map(function ($order) {
+            $order->status = Order::statusFormat($order->status);
+            return $order;
+        });
         return view('order.index', compact('orders', 'sort', 'order','carts'));
     }
 
@@ -68,6 +71,7 @@ class OrderController extends Controller
             if ($results) {
                 $result = 'success';
                 $orderId = $newOrder->id;
+
                 return redirect()->route('order.results', compact('orderId', 'result'))->with('success', 'Order has been placed successfully');
             } else {
                 return redirect()->route('order.results', compact('results'))->with('message', 'Order has been placed failed');
@@ -89,41 +93,6 @@ class OrderController extends Controller
         return view('order.result');
     }
 
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Order $order)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Order $order)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Order $order)
-    {
-        //
-    }
-
     /**
      * Remove the specified resource from storage.
      *
@@ -135,10 +104,17 @@ class OrderController extends Controller
         if (!isset(auth()->user()->id)) {
             return redirect()->route('index');
         }
-        dd($request->route('id')); 
         $order = Order::find($request->route('id'));
         $order->status = -1;
         $order->save();
         return redirect()->route('order.index')->with('success', 'Order has been cancelled successfully');
+    }
+
+    public function detail(Request $request, Order $order){
+        $carts = Cart::itemCount();
+        $order = Order::find($request->route('id'));
+        $order->status = Order::statusFormat($order->status);
+
+        return view('order.detail', compact('order', 'carts'));
     }
 }

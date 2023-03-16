@@ -15,11 +15,14 @@
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-    @yield('scripts')
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 
     <!-- Scripts -->
+    <script>
+        $(function() {
+            $('#datepicker').datepicker();
+        });
+    </script>
     @vite(['resources/sass/app.scss', 'resources/js/app.js', 'resources/css/app.css'])
 </head>
 
@@ -38,6 +41,8 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
+                    @if(auth()->check() && auth()->user()->role == 2)
+                    @else
                     <ul class="navbar-nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
                         <form class="d-flex center" action="{{ route('index') }}" method="GET" role="search">
                             <input class="form-control me-2" type="search" placeholder="search" aria-label="search"
@@ -46,18 +51,26 @@
                                 type="submit">search</button>
                         </form>
                     </ul>
-
+                    @endif
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
                         <li class="nav-item">
-                            <a href="{{ route('cart.index') }}" class="nav-link">
-                                <i class="fa-solid fa-cart-shopping"></i>
-                                &nbsp;
-                                @if (auth()->check())
-                                    <span class="badge bg-danger rounded-pill">{{ $carts }}</span>
-                                @endif
-                            </a>
+                            @guest
+                            @endguest
+                            @if (auth()->check() && auth()->user()->role === 1)
+                                <a href="{{ route('cart.index') }}" class="nav-link">
+                                    <i class="fa-solid fa-cart-shopping"></i>
+                                    &nbsp;
+                                    @if (auth()->check())
+                                        <span class="badge bg-danger rounded-pill">{{ $carts }}</span>
+                                    @endif
+                                </a>
+                            @endif
+                            @if (auth()->check() && auth()->user()->role == 2)
+                                <a href="{{ route('vendor.index')}}" class="nav-link">
+                                Vendor</a>
+                            @endif
                         </li>
                         &nbsp;
                         @guest
@@ -106,5 +119,6 @@
         </main>
     </div>
 </body>
+@yield('scripts')
 
 </html>

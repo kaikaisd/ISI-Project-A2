@@ -15,6 +15,15 @@
                 </select>
             </div>
             <br/>
+            <div class="form-group">
+                <!-- sort by price !-->
+                <label for="price">Sort by Price:</label>
+                <select class="form-control" id="price" name="price">
+                    <option value="asc" {{ request()->get('price') == 'asc' ? 'selected' : '' }}>Low to High</option>
+                    <option value="desc" {{ request()->get('price') == 'desc' ? 'selected' : '' }}>High to Low</option>
+                </select>
+            </div>
+            <br/>
             <div class="d-grid gap-2">
                 <button type="submit" class=" btn btn-primary">Filter</button>
             </div>
@@ -28,18 +37,22 @@
                         <img class="card-img-top" src="{{ $product->productPicture[0]->path }}" alt="{{ $product->name }}">
                         <div class="card-body">
                             <h4 class="card-title">{{ $product->name }}</h4>
-                            <p class="card-text">${{ $product->price }}</p>
+                            @if ($product->isPromotion)
+                                <p class="card-text"><del>${{ $product->price }}</del></p>
+                                <p class="card-text" style="font-size: 28px; color:red; font-weight: bold;">${{ $product->promoPrice }}</p>
+                            @else
+                                <p class="card-text" style="font-size: 28px; font-weight: bold;">${{ $product->price }}</p>
+                            @endif
                             @guest
-                                <a href = "{{ route('login') }}" class="btn btn-primary">Login</a> 
+
                             @else
                             <form action="{{ route('cart.add', ['id' => $product->id]) }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="quantity" value="1">
-                                <button type="submit" class="btn btn-primary">Add to Cart</button>
+                                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-cart-plus"></i></button>
                             </form>
                             @endguest
-                            &nbsp;
-                            <a href = "{{ route('product.detail', ['id' => $product->id]) }}" class="btn btn-primary">View Product</a>
+                            <a href = "{{ route('product.detail', ['id' => $product->id]) }}" class="btn btn-primary"><i class="fa-solid fa-eye"></i></a>
                         </div>
                     </div>
                     <br />

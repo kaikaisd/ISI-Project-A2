@@ -39,9 +39,9 @@ class Order extends Model
             case 1:
                 return 'Pending';
             case 2:
-                return 'Processing';
+                return 'On Hold';
             case 3:
-                return 'Completed';
+                return 'Delivered';
             default:
                 return 'Unknown';
         }

@@ -18,25 +18,25 @@
                     </div>
                 </div> --}}
                 <div id="product-images" class="mb-4">
-                    <div id="product-carousel" class="carousel slide" data-ride="carousel">
-                        <ol class="carousel-indicators">
+                    <div id="product-carousel" class="carousel slide" data-bs-ride="true">
+                        <div class="carousel-indicators">
                             @foreach ($product->productPicture as $index => $image)
-                                <li data-target="#product-carousel" data-slide-to="{{ $index }}"
-                                    class="{{ $index == 0 ? 'active' : '' }}"></li>
+                                <button type="button" data-bs-target="#product-carousel" aria-label="Slide {{$index+1}}" data-bs-slide-to="{{ $index }}"
+                                    class="{{ $index == 0 ? 'active' : '' }}" {{ $index == 0 ? 'aria-current="true"' : ''}}></li>
                             @endforeach
-                        </ol>
+                        </div>
                         <div class="carousel-inner">
                             @foreach ($product->productPicture as $index => $image)
                                 <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                                    <img src="{{ $image->path }}" alt="{{ $product->name }}" class="img-fluid">
+                                    <img src="{{ $image->path }}" alt="{{ $product->name }}" class="d-block w-100">
                                 </div>
                             @endforeach
                         </div>
-                        <a class="carousel-control-prev" href="#product-carousel" role="button" data-slide="prev">
+                        <a class="carousel-control-prev" data-bs-target="#product-carousel" type="button" data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span class="sr-only">Previous</span>
                         </a>
-                        <a class="carousel-control-next" href="#product-carousel" role="button" data-slide="next">
+                        <a class="carousel-control-next" data-bs-target="#product-carousel" type="button" data-bs-slide="next">
                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                             <span class="sr-only">Next</span>
                         </a>
@@ -82,7 +82,7 @@
                             <input type="number" name="quantity" id="quantity" class="form-control" value="1"
                                 min="1">
                         </div>
-
+                        <br/>
                         @if (auth()->check())
                             <button type="submit" class="btn btn-primary btn-block">Add to Cart</button>
                         @else

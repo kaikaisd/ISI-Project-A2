@@ -14,8 +14,7 @@ if($order->status == 'Pending') {
         <h2>Order Form</h2>
         <h3 class="text-end">Order ID: {{ $order->id }}</h3>
         <h3 class="text-end">Order Status: <span class="{{ $color }}">{{ $order->status }}</span>
-            <h3 class="text-end">Last Updated: {{ $order->updated_at }}</span>
-
+        <h3 class="text-end">Last Updated: {{ $order->updated_at }}</span>
         </h3>
         <div class="row mt-4">
             <div class="col-md-6">
@@ -82,34 +81,7 @@ if($order->status == 'Pending') {
                 <br/><br/>
             </div>
         </div>
-        @if ($order->status === 'Pending' || $order->status === 'On Hold')
-        <div class="fixed-bottom mb-4">
-            <div class="d-flex justify-content-center ">
-                <button type="button" class="btn btn-lg btn-danger mr-4" onclick="cancelOrder()">Cancel Order</button>&nbsp;
-                <button type="button" class="btn btn-lg btn-warning mr-4" onclick="holdOrder()">Hold Order</button>&nbsp;
-                <button type="button" class="btn btn-lg btn-primary" onclick="shipOrder()">Ship Order</button>
-            </div>
-        </div>
-        @endif
+        
     </div>
 
-    <script>
-        function cancelOrder() {
-            if (confirm('Are you sure you want to cancel this order?')) {
-                window.location.href = "{{ route('vendor.order.action', ['id' => $order->id , 'action' => 'cancel']) }}";
-            }
-        }
-
-        function holdOrder() {
-            if (confirm('Are you sure you want to put this order on hold?')) {
-                window.location.href = "{{ route('vendor.order.action', ['id' => $order->id , 'action' => 'hold']) }}";
-            }
-        }
-
-        function shipOrder() {
-            if (confirm('Are you sure you want to mark this order as shipped?')) {
-                window.location.href = "{{ route('vendor.order.action', ['id' => $order->id, 'action' => 'done']) }}";
-            }
-        }
-    </script>
 @endsection
