@@ -57,4 +57,4 @@ Route::group(['prefix'=>'/vendor'],function(){
 //         Route::post('/{id}/delete')->name('vendor.product.delete');
 //         Route::post('/{id}/upload')->name('vendor.product.upload');
 //     });
-// });
+ });
