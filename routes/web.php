@@ -21,9 +21,10 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/products', [App\Http\Controllers\ProductController::class, 'index'])->name('product.index');
+Route::get('/products/{id}', [App\Http\Controllers\ProductController::class, 'show'])->name('product.show');
 // Route::get('/product/{id}')->name('product.detail');
 Route::get('/cart', [App\Http\Controllers\CartController::class, 'index'])->name('cart.index');
-Route::post('/cart/add/{id}', [App\Http\Controllers\ProductController::class, 'add'])->name('cart.add');
+Route::post('/cart/add/{id}', [App\Http\Controllers\CartController::class, 'add'])->name('cart.add');
 Route::patch('/cart/update/{id}', [App\Http\Controllers\CartController::class, 'update'])->name('cart.update');
 Route::delete('/cart/remove/{id}', [App\Http\Controllers\CartController::class, 'remove'])->name('cart.destroy');
 // Route::group(['prefix'=>'/cart'],function(){

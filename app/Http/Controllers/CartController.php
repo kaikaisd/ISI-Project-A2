@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Cart;
+use App\Models\Product;
+
 class CartController extends Controller
 {
     public function index()
@@ -19,31 +21,34 @@ class CartController extends Controller
 
      public function update($id)
     {
-        $quantity = request()->input('quantity', 1);
-        $cart = json_decode(request()->cookie('cart', '{}' ), true);
-        if (isset($cart[$id])) {
-            $cart[$id] += $quantity;
-        } else {
-            $cart[$id] = $quantity;
-        }
-        return response()
-        ->json(['cartCount' => array_sum($cart)])
-        ->cookie('cart', json_encode($cart));
+            $quantity = request()->input('quantity', 1);
+            $cart = json_decode(request()->cookie('cart', '{}' ), true);
+            if (isset($cart[$id])) {
+                $cart[$id] += $quantity;
+            } else {
+                $cart[$id] = $quantity;
+            }
+            return response()
+            ->json(['cartCount' => array_sum($cart)])
+            ->cookie('cart', json_encode($cart));
     }
 
     public function add($id)
     {
-        $products = Product::findOrFail($id);
-
-        Cart::add([
-            'id' => $products->id,
-            'name' => $products->name,
-            'price' => $products->price,
-            'quantity' => 1,
-            'attributes' => [
-            'image' => $products->image
-            ]
-        ]);
+        $product = Product::findOrFail($id);
+        $cart = Cart::where('user_id', auth()->user()->id)->where('product_id', $product->id)->first();
+        if ($cart) {
+            $cart->quantity += 1;
+            $cart->save();
+        } else {
+            $cart = new Cart();
+            $cart->user_id = auth()->user()->id;
+            $cart->product_id = $product->id;
+            $cart->quantity = 1;
+            $cart->price = $product->price;
+            $cart->save();
+        }
+        
 
         return redirect()->route('cart.index')->with('success', 'Product added to cart successfully.');
     }
