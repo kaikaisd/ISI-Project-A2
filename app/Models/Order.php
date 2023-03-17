@@ -28,6 +28,22 @@ class Order extends Model
 
     public function orderProduct()
     {
-        return $this->hasMany(Product::class);
+        return $this->hasMany(OrderProduct::class);
+    }
+
+    public static function statusFormat($status)
+    {
+        switch ($status) {
+            case -1:
+                return 'Cancelled';
+            case 1:
+                return 'Pending';
+            case 2:
+                return 'On Hold';
+            case 3:
+                return 'Delivered';
+            default:
+                return 'Unknown';
+        }
     }
 }

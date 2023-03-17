@@ -16,7 +16,8 @@ return new class extends Migration
         Schema::create('order', function (Blueprint $table) {
             $table->id('id');
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
+            $table->decimal('price', 10, 2);
             $table->integer('status');
             $table->timestamps();
         });

@@ -1,6 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\VendorController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\OrderController;
+use App\Models\Product;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,19 +22,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    $controller = new App\Http\Controllers\WelcomeController();
-    return $controller->index();
+    return view('layouts.app');
 });
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/products', [App\Http\Controllers\ProductController::class, 'index'])->name('product.index');
+// Route::get('/product')->name('product');
 // Route::get('/product/{id}')->name('product.detail');
-Route::get('cart', [App\Http\Controllers\ProductController::class, 'cart'])->name('cart');
-Route::post(' /add-to-cart', [App\Http\Controllers\ProductController::class, 'addToCart'])->name('cart.add');
-Route::patch('update-cart', [App\Http\Controllers\ProductController::class, 'update'])->name('update.cart');
-Route::delete('remove-from-cart', [App\Http\Controllers\ProductController::class, 'remove'])->name('remove.from.cart');
+
 // Route::group(['prefix'=>'/cart'],function(){
 //     Route::get('/','CartController@index')->name('cart.index');
 //     Route::post('/add/{id}','CartController@add')->name('cart.add');
@@ -35,14 +39,7 @@ Route::delete('remove-from-cart', [App\Http\Controllers\ProductController::class
 //     Route::post('/clear','CartController@clear')->name('cart.clear');
 // })->middleware('auth');
 
-// Route::group(['prefix'=>'/user'],function(){
-//     Route::get('/','UserController@index')->name('user.index');
-//     Route::get('/order')->name('user.order');
-//     Route::get('/order/{id}')->name('user.order.detail');
-//     Route::post('/order/{id}/cancel')->name('user.order.cancel');
-//     Route::get('/order/{id}/review')->name('user.order.review');
-//     Route::post('/order/{id}/review')->name('user.order.review');
-// })->middleware('auth');
+Route::group(['prefix'=>'/vendor'],function(){
 
 // Route::group(['prefix'=>'/vendor'],function(){
 //     Route::get('/','VendorController@index')->name('vendor.index');

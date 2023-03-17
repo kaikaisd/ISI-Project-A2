@@ -18,9 +18,9 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('order_id');
             $table->unsignedBigInteger('product_id');
-            $table->foreign('order_id')->references('id')->on('order');
-            $table->foreign('product_id')->references('id')->on('product');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('order_id')->references('id')->on('order')->cascadeOnDelete();
+            $table->foreign('product_id')->references('id')->on('product')->cascadeOnDelete();
+            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
             $table->longText('reviews');
             $table->decimal('rating', 1, 1);
             $table->timestamps();

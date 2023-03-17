@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 class OrderFactory extends Factory
 {
 
-    protected $statusCode = [-1, 1, 2, 3, 4];
+    protected $statusCode = [-1, 1, 2, 3];
 
     /**
      * Define the model's default state.
@@ -22,6 +22,7 @@ class OrderFactory extends Factory
         return [
             'user_id' => $this->faker->numberBetween(1, 10),
             'status' => $this->statusCode[array_rand($this->statusCode)],
+            'price' => $this->faker->numberBetween(100, 1000),
             'created_at' => $this->faker->dateTimeBetween('-1 years', 'now'),
             'updated_at' => $this->faker->dateTimeBetween('-1 years', 'now'),
         ];

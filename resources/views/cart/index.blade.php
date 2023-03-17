@@ -1,5 +1,3 @@
-@extends('layouts.app')
-@section('title', 'product list')
 
 @section('content')
 <table class="table">

@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('order_id');
             $table->unsignedBigInteger('product_id');
-            $table->foreign('order_id')->references('id')->on('order');
-            $table->foreign('product_id')->references('id')->on('product');
+            $table->foreign('order_id')->references('id')->on('order')->cascadeOnDelete();
+            $table->foreign('product_id')->references('id')->on('product')->cascadeOnDelete();
             $table->integer('quantity');
             $table->decimal('price', 8, 2);
             $table->timestamps();
