@@ -46,9 +46,19 @@
 
                 <div class="col-md-6">
                     <h1>{{ $product->name }}</h1>
-
+                    <p>{{ $product->description }}</p>
+                    @if ($product->isPromotion == 1)
+                        <h4 class=""><del>${{ $product->price}}</del></h3>
+                        <h2 class="text-danger text-bold" >${{ $product->promoPrice}}</h2>
+                    @else
+                        <h2 class="text-success">${{ $product->price }}</h2>
+                    @endif
                     @if ($product->isOnSale === 1)
+                        @if ($product->quantity >= 1)
                         <div class="alert alert-success d-inline-block">On Sale</div>
+                        @else
+                        <div class="alert alert-danger d-inline-block">Out of Stock</div>
+                        @endif
                     @else
                         <div class="alert alert-danger d-inline-block">Not On Sale</div>
                     @endif
@@ -84,7 +94,9 @@
                         </div>
                         <br/>
                         @if (auth()->check())
+                        @if ($product->isOnSale == 1)
                             <button type="submit" class="btn btn-primary btn-block">Add to Cart</button>
+                            @endif
                         @else
                             <a href="{{ route('login') }}" class="btn btn-primary btn-block">Log In to Add to Cart</a>
                         @endif

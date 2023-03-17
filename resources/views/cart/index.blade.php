@@ -30,8 +30,8 @@
                                         <td width='3'><input id="quantity[{{ $key->product_id }}]" type="number"
                                                 value="{{ $key->quantity }}"
                                                 onChange='onChangeQuantity({{ $key->product_id }})' /></td>
-                                        <td>${{ $key->product->price }}</td>
-                                        <td>${{ $key->product->price * $key->quantity }}</td>
+                                        <td class="{{ $key->product->isPromotion == 1 ? 'text-danger' :'' }}">${{ $key->product->isPromotion == 1 ? $key->product->promoPrice : $key->product->price }}</td>
+                                        <td class="{{ $key->product->isPromotion == 1 ? 'text-danger' :'' }}">${{ $key->product->isPromotion == 1 ? $key->product->promoPrice * $key->quantity : $key->product->price * $key->quantity }}</td>
                                         <td>
                                             <button type="button" class="btn btn-danger"
                                                 onclick="deleteCart({{ $key->product_id }})"><i

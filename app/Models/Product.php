@@ -27,6 +27,11 @@ class Product extends Model
         'isOverSale',
         'isPromotion',
         'promoPrice',
+        'isbn',
+        'author',
+        'publisher',
+        'release_date',
+        'pages',
     ];
     
     public function brand()

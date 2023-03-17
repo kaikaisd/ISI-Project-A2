@@ -39,7 +39,11 @@ class CartController extends Controller
         $carts = Cart::where('user_id', auth()->user()->id)->count();
         $cartItem = Cart::where('user_id', auth()->user()->id)->get();
         $totalPrice = $cartItem->sum(function ($carts) {
-            return $carts->quantity * $carts->product->price;
+            if ($carts->product->isPromotion){
+                return $carts->quantity * $carts->product->promoPrice;
+            }else{
+                return $carts->quantity * $carts->product->price;
+            }
         });
 
         //dd($carts);

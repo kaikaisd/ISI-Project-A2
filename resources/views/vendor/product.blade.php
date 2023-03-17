@@ -7,7 +7,6 @@
             <a href="{{ route('vendor.product.action',['id' => 'new' ]) }}" class="btn btn-primary">Add Product</a>
         </div>
 
-        <!-- search product -->
         <div class="mt-4">
             <form action="{{ route('vendor.product.index') }}" method="GET">
                 <div class="row">
@@ -55,7 +54,9 @@
                 @endforeach
             </tbody>
         </table>
-
+        <div class="d-flex justify-content-center">
+            {{ $products->appends(request()->query())->links() }}
+        </div>
         
     </div>
 @endsection

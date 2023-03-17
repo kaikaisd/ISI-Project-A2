@@ -15,7 +15,7 @@ use Termwind\Components\Dd;
 
 class VendorController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         if (!auth()->check()){
             return redirect()->route('login');
@@ -27,13 +27,22 @@ class VendorController extends Controller
         $newOrders = Order::query()->where('status', 1)->count();
         $processingOrders = Order::query()->where('status', 2)->count();
         $completedOrders = Order::query()->where('status', 3)->count();
-        $topProducts = OrderProduct::query()->withCount('product')->select('product_id',DB::raw('COUNT(quantity) as sales'))->groupBy('product_id')->orderByDesc('product_id')->limit(3)->get();
+        
+        $topProducts = OrderProduct::query()->withCount('product')->select('product_id',DB::raw('COUNT(quantity) as sales'))->groupBy('product_id')->orderByDesc('product_id');
+        if ($request->route('start_date')){
+            $topProducts->whereDate('created_at', '>=', $request->route('start_date'));
+        }
+        if ($request->route('end_date')){
+            $topProducts->whereDate('created_at', '<=', $request->route('end_date'));
+        }
+        $topProducts = $topProducts->limit(5)->get();
         $topProductsLabel = $topProducts->map(function ($product){
             return $product->product->name;
         });        
         $topProductsData = $topProducts->map(function ($product){
             return $product->sales;
         });
+
         return view('vendor.index', compact('orders', 'newOrders', 'processingOrders', 'completedOrders', 'topProducts', 'topProductsData', 'topProductsLabel'));
         # return view('user.index');
     }
@@ -180,11 +189,12 @@ class VendorController extends Controller
         //dd($request->all());
         $product = $product->updateOrCreate(['id' => $request->id], $request->all());
         if ($request->hasFile('new_image')){
+            //dd($request->all());
             foreach($request->new_image as $image)
             {
                 $path = $image->store('public/products');
-                dd($path);
-                $picture->updateOrCreate(['product_id' => $product->id, 'path' => $path]);
+                $path = str_replace('public/', '', $path);
+                $result = $picture->updateOrCreate(['product_id' => $product->id, 'path' => 'storage/'.$path]);
             }
         }
         if ($request->continue_edit){

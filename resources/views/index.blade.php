@@ -46,11 +46,13 @@
                             @guest
 
                             @else
+                            @if($product->isOnSale == 1)
                             <form action="{{ route('cart.add', ['id' => $product->id]) }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="quantity" value="1">
                                 <button type="submit" class="btn btn-primary"><i class="fa-solid fa-cart-plus"></i></button>
                             </form>
+                            @endif
                             @endguest
                             <a href = "{{ route('product.detail', ['id' => $product->id]) }}" class="btn btn-primary"><i class="fa-solid fa-eye"></i></a>
                         </div>

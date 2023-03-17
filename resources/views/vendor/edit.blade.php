@@ -29,7 +29,7 @@
                                 </div>
                             @endforeach
                         </div>
-                        <input type="file" name="new_image" accept="image/*" multiple>
+                        <input type="file" name="new_image[]" accept="image/*" multiple>
 
                     @endif
 
@@ -55,6 +55,31 @@
                         <label>Price:</label>
                         <input type="number" id="price" name="price" class="form-control"
                             value="{{ $product->price }}" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label>ISBN:</label>
+                        <input type="text" name="isbn" class="form-control" required
+                            value="{{ $product->isbn }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Author:</label>
+                        <input type="text" name="author" class="form-control" required
+                            value="{{ $product->author }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Publisher:</label>
+                        <input type="text" name="publisher" class="form-control" required
+                            value="{{ $product->publisher }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Release date:</label>
+                        <input type="date" name="release_date" class="form-control" required
+                            value="{{ $product->release_date }}" >
+                    </div>
+                    <div class="form-group">
+                        <label>Pages:</label>
+                        <input type="number" name="pages" class="form-control" required
+                            value="{{ $product->pages }}">
                     </div>
                     <div class="form-group">
                         <label>Category:</label>
@@ -88,6 +113,7 @@
                             value="1"{{ $product->isOnSale ? ' checked' : '' }}>
                         <label class="form-check-label">Is On Sale?</label>
                     </div>
+                    
                     <div class="form-check">
                         <input type="hidden" name="isPromotion" value="0">
                         <input type="checkbox" onclick="switchBox()" id="isPromotion" name="isPromotion"
@@ -96,7 +122,7 @@
                     </div>
                     <div class="form-group">
                         <label>Promotion Price:</label>
-                        <input type="hidden" name="promoPrice" value="0">
+                        <input type="hidden" name="promoPrice" value="{{ $product->promoPrice > 0 ?? 0 }}">
                         <input type="number" id="promoPrice" name="promoPrice" class="form-control" default="0"
                             value="{{ $product->promoPrice }}" disabled min="0">
                     </div>
