@@ -14,19 +14,19 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('layouts.app');
+    $controller = new App\Http\Controllers\WelcomeController();
+    return $controller->index();
 });
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/products', [App\Http\Controllers\ProductController::class, 'index'])->name('product.index');
-Route::get('/products/{id}', [App\Http\Controllers\ProductController::class, 'show'])->name('product.show');
 // Route::get('/product/{id}')->name('product.detail');
-Route::get('/cart', [App\Http\Controllers\CartController::class, 'index'])->name('cart.index');
-Route::post('/cart/add/{id}', [App\Http\Controllers\CartController::class, 'add'])->name('cart.add');
-Route::patch('/cart/update/{id}', [App\Http\Controllers\CartController::class, 'update'])->name('cart.update');
-Route::delete('/cart/remove/{id}', [App\Http\Controllers\CartController::class, 'remove'])->name('cart.destroy');
+Route::get('cart', [App\Http\Controllers\ProductController::class, 'cart'])->name('cart');
+Route::post(' /add-to-cart', [App\Http\Controllers\ProductController::class, 'addToCart'])->name('cart.add');
+Route::patch('update-cart', [App\Http\Controllers\ProductController::class, 'update'])->name('update.cart');
+Route::delete('remove-from-cart', [App\Http\Controllers\ProductController::class, 'remove'])->name('remove.from.cart');
 // Route::group(['prefix'=>'/cart'],function(){
 //     Route::get('/','CartController@index')->name('cart.index');
 //     Route::post('/add/{id}','CartController@add')->name('cart.add');
