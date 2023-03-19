@@ -8,6 +8,7 @@ use App\Http\Controllers\VendorController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\CaDController;
 use App\Models\Product;
 
 /*
@@ -64,7 +65,6 @@ Route::group(['prefix' => '/order'],function(){
 })->middleware('auth');
 
 Route::group(['prefix'=>'/vendor'],function(){
-
     Route::get('/',[VendorController::class,'index'])->name('vendor.index');
     Route::get('/order',[VendorController::class,'orderList'])->name('vendor.order.index');
     Route::get('/order/{id}',[VendorController::class,'orderDetails'])->name('vendor.order.detail');
@@ -77,4 +77,9 @@ Route::group(['prefix'=>'/vendor'],function(){
         Route::get('/{id}/{action?}/{pid?}',[VendorController::class,'productStore'])->name('vendor.product.action');
         Route::post('/{id}/{action?}/{pid?}',[VendorController::class,'productStore'])->name('vendor.product.action');
     })->middleware('auth');
+    Route::get('/cad',[CaDController::class,'index'])->name('vendor.cad');
+    Route::post('/cad/brand',[CaDController::class,'addBrand'])->name('vendor.cad.brand.add');
+    Route::post('/cad/category',[CaDController::class,'addCategory'])->name('vendor.cad.category.add');
+    Route::delete('/cad/brand',[CaDController::class,'deleteBrand'])->name('vendor.cad.brand.delete');
+    Route::delete('/cad/category',[CaDController::class,'deleteCategory'])->name('vendor.cad.category.delete');
 })->middleware('auth');
