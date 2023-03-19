@@ -23,6 +23,10 @@ class OrderProduct extends Model
         return $this->belongsTo(Order::class);
     }
 
+    public function comment(){
+        return $this->hasOne(Comment::class);
+    }
+
     public function product(){
         return $this->belongsTo(Product::class);
     }

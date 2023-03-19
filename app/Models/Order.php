@@ -31,6 +31,11 @@ class Order extends Model
         return $this->hasMany(OrderProduct::class);
     }
 
+    public function comment()
+    {
+        return $this->hasOne(Comment::class);
+    }
+
     public static function statusFormat($status)
     {
         switch ($status) {

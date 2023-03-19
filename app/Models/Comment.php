@@ -33,6 +33,9 @@ class Comment extends Model
         return $this->belongsTo(Product::class);
     }
 
-
+    public function orderProduct()
+    {
+        return $this->belongsTo(OrderProduct::class);
+    }
 
 }
