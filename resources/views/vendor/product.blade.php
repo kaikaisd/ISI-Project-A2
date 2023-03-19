@@ -5,6 +5,8 @@
         <h2>Product Management</h2>
         <div class="mt-4">
             <a href="{{ route('vendor.product.action',['id' => 'new' ]) }}" class="btn btn-primary">Add Product</a>
+            &nbsp;
+            <a href="{{ route('vendor.cad.index') }}" class="btn btn-primary ml-2">Manage Categories & Brands</a>
         </div>
 
         <div class="mt-4">

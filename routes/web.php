@@ -40,6 +40,9 @@ Route::get('/product', function(){
 Route::get('/product/{id}', [ProductController::class,'details'])->name('product.detail');
 
 Route::group(['prefix'=>'/cart'], function(){
+    if (auth()->check() && auth()->user()->role == 2){
+        return redirect('vendor');
+    }
     Route::get('/',[CartController::class, 'form'])->name('cart.index');
     Route::post('/add/{id}',[CartController::class, 'addCart'])->name('cart.add');
     Route::delete('/destroy',[CartController::class, 'destory'])->name('cart.destroy');
@@ -47,6 +50,9 @@ Route::group(['prefix'=>'/cart'], function(){
 })->middleware('auth');
 
 Route::group(['prefix'=>'/user'],function(){
+    if (auth()->check() && auth()->user()->role == 2){
+        return redirect('vendor');
+    }
     Route::get('/',[UserController::class,'index'])->name('user.index');
     Route::post('/change-password',[UserController::class,'updatePassword'])->name('user.change-password');
 })->middleware('auth');
@@ -77,7 +83,7 @@ Route::group(['prefix'=>'/vendor'],function(){
         Route::get('/{id}/{action?}/{pid?}',[VendorController::class,'productStore'])->name('vendor.product.action');
         Route::post('/{id}/{action?}/{pid?}',[VendorController::class,'productStore'])->name('vendor.product.action');
     })->middleware('auth');
-    Route::get('/cad',[CaDController::class,'index'])->name('vendor.cad');
+    Route::get('/cad',[CaDController::class,'index'])->name('vendor.cad.index');
     Route::post('/cad/brand',[CaDController::class,'addBrand'])->name('vendor.cad.brand.add');
     Route::post('/cad/category',[CaDController::class,'addCategory'])->name('vendor.cad.category.add');
     Route::delete('/cad/brand',[CaDController::class,'deleteBrand'])->name('vendor.cad.brand.delete');

@@ -34,6 +34,8 @@
             <a href="{{ route('vendor.product.index') }}" class="btn btn-primary btn-lg">Manage Products</a>
             &nbsp;
             <a href="{{ route('vendor.order.index') }}" class="btn btn-primary ml-2 btn-lg">Manage Orders</a>
+            &nbsp;
+            <a href="{{ route('vendor.cad.index') }}" class="btn btn-primary ml-2 btn-lg">Manage Categories & Brands</a>
         </div>
     </div>
 @endsection
