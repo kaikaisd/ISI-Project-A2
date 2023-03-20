@@ -11,6 +11,7 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\ProductPicture;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Termwind\Components\Dd;
 
 class VendorController extends Controller
@@ -183,7 +184,9 @@ class VendorController extends Controller
             return redirect()->route('login');
         }
         if ($request->route('action') == 'deleteImage'){
-            $picture->find($request->route('pid'))->delete();
+            $path = $picture->find($request->route('pid'));
+            Storage::delete($path);
+            $path->delete();
             return redirect()->route('vendor.product.action', ['id' => $request->route('id')])->with(['success' => 'Image deleted successfully']);
         }
         //dd($request->all());
@@ -192,8 +195,8 @@ class VendorController extends Controller
             //dd($request->all());
             foreach($request->new_image as $image)
             {
-                $path = $image->store('public/products');
-                $path = str_replace('public/', '', $path);
+                $path = $image->store('img', 'public');
+                //dd($path);
                 $result = $picture->updateOrCreate(['product_id' => $product->id, 'path' => 'storage/'.$path]);
             }
         }
