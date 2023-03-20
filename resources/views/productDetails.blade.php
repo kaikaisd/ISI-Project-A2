@@ -53,6 +53,14 @@
                     <table class="table mt-3">
                         <tbody>
                             <tr>
+                                <td>Brand:</td>
+                                <td>{{ $product->brand->name }}</td>
+                            </tr>
+                            <tr>
+                                <td>Category:</td>
+                                <td>{{ $product->category->name }}</td>
+                            </tr>
+                            <tr>
                                 <td>ISBN:</td>
                                 <td>{{ $product->isbn }}</td>
                             </tr>
