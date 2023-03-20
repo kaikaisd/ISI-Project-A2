@@ -4,19 +4,6 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-                {{-- <div id="product-images" class="mb-4">
-                    <div class="product-main-image">
-                        <img src="{{ $product->productPicture[0]->path }}" alt="{{ $product->name }}" class="img-fluid">
-
-                    </div>
-                    <div class="product-thumbnails mt-2">
-                        @foreach ($product->productPicture as $image)
-                            <div class="thumbnail">
-                                <img src="{{ asset($image->path) }}" alt="{{ $product->name }}" class="img-fluid">
-                            </div>
-                        @endforeach
-                    </div>
-                </div> --}}
                 <div id="product-images" class="mb-4">
                     <div id="product-carousel" class="carousel slide" data-bs-ride="true">
                         <div class="carousel-indicators">
@@ -28,7 +15,7 @@
                         <div class="carousel-inner">
                             @foreach ($product->productPicture as $index => $image)
                                 <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                                    <img src="{{ $image->path }}" alt="{{ $product->name }}" class="d-block w-100">
+                                    <img src="{{ asset($image->path)}}" alt="{{ $product->name }}" class="d-block w-100">
                                 </div>
                             @endforeach
                         </div>

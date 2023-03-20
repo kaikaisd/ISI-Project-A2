@@ -41,7 +41,7 @@
                         <td>{{ $product->name }}</td>
                         <td>{{ $product->quantity }}</td>
                         <td>${{ $product->price }}</td>
-                        <td><img src="{{ $product->productPicture[0]->path }}" alt="{{ $product->name }}" style="max-height: 80px;"></td>
+                        <td><img src="{{ asset($product->productPicture[0]->path) }}" alt="{{ $product->name }}" style="max-height: 80px;"></td>
                         <td>
                             <a href="{{ route('vendor.product.action', ['id' => $product->id, 'action' => 'edit']) }}"
                                 class="btn btn-primary btn-sm">Edit</a>&nbsp;

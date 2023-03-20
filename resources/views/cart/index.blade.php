@@ -24,7 +24,7 @@
                             <tbody>
                                 @foreach ($cartItem as $key)
                                     <tr>
-                                        <td><img src="{{ $key->product->productPicture[0]->path }}" width="50"
+                                        <td><img src="{{ asset($key->product->productPicture[0]->path) }}" width="50"
                                                 alt="{{ $key->product->name }}"></td>
                                         <td>{{ $key->product->name }}</td>
                                         <td width='3'><input id="quantity[{{ $key->product_id }}]" type="number"
