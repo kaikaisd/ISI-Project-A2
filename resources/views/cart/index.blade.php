@@ -22,6 +22,11 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @if ($cartItem->count() == 0)
+                                    <tr>
+                                        <td colspan="6">No item in cart.</td>
+                                    </tr>
+                                @endif
                                 @foreach ($cartItem as $key)
                                     <tr>
                                         <td><img src="{{ asset($key->product->productPicture[0]->path) }}" width="50"
@@ -70,7 +75,7 @@
                 <br />
                 <div class="row">
                     <div class="col-md-12 d-grid gap-2">
-                        <button id="submit" type="submit" class="btn btn-primary btn-lg"
+                        <button id="submit" type="submit" class="btn btn-primary btn-lg" {{ $cartItem->count() == 0 ? 'disabled' : '' }}
                             >Place Order</button>
                     </div>
                 </div>
