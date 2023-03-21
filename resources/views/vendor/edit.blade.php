@@ -122,7 +122,7 @@
                     </div>
                     <div class="form-group">
                         <label>Promotion Price:</label>
-                        <input type="hidden" name="promoPrice" value="{{ $product->promoPrice > 0 ?? 0 }}">
+                        <input type="hidden" name="promoPrice" value="{{ $product->promoPrice > 0 ? $product->promoPrice : 0 }}">
                         <input type="number" id="promoPrice" name="promoPrice" class="form-control" default="0"
                             value="{{ $product->promoPrice }}" disabled min="0">
                     </div>
