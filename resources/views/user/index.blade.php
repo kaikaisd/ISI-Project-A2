@@ -22,33 +22,34 @@
                             <tr>
                                 <td colspan="5">No orders found.</td>
                             </tr>
-                        @endif
-                        @foreach ($orders as $order)
-                            <tr>
-                                <td>{{ $order->id }}</td>
-                                <td>{{ $order->created_at }}</td>
-                                @php
-                                    $sum = 0;
-                                    foreach ($order->orderProduct as $product) {
-                                        $sum += $product->price;
-                                    }
-                                @endphp
-                                <td>${{ $sum }}</td>
-                                <td style="font-size: 1.25rem;">{{ $order->status }}</td>
-                                <td>
-                                    <a href="{{ route('order.detail', $order->id) }}" class="btn btn-primary">
-                                        <i class="fa-solid fa-eye"></i>
-                                    </a>
+                        @else
+                            @foreach ($orders as $order)
+                                <tr>
+                                    <td>{{ $order->id }}</td>
+                                    <td>{{ $order->created_at }}</td>
+                                    @php
+                                        $sum = 0;
+                                        foreach ($order->orderProduct as $product) {
+                                            $sum += $product->price;
+                                        }
+                                    @endphp
+                                    <td>${{ $sum }}</td>
+                                    <td style="font-size: 1.25rem;">{{ $order->status }}</td>
+                                    <td>
+                                        <a href="{{ route('order.detail', $order->id) }}" class="btn btn-primary">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </a>
 
-                                    @if ($order->status == 'Pending')
-                                        <span>&nbsp;</span>
-                                        <a href="{{ route('order.cancel', $order->id) }}"
-                                            onClick="confirm('Do you want to cancel the order {{ $order->id }} ?')"
-                                            class="btn btn-danger"><i class="fa-solid fa-ban"></i></a>
-                                    @endif
-                                </td>
-                            </tr>
-                        @endforeach
+                                        @if ($order->status == 'Pending')
+                                            <span>&nbsp;</span>
+                                            <a href="{{ route('order.cancel', $order->id) }}"
+                                                onClick="confirm('Do you want to cancel the order {{ $order->id }} ?')"
+                                                class="btn btn-danger"><i class="fa-solid fa-ban"></i></a>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @endif
                     </tbody>
                 </table>
             </div>

@@ -57,7 +57,7 @@
                     <tr>
                         <td colspan="6" class="text-center">No orders found</td>
                     </tr>
-                @endif
+                @else
                 @foreach ($orders as $order)
                     <tr>
                         <td>{{ $order->id }}</td>
@@ -76,7 +76,8 @@
                             
                         </td>
                     </tr>
-                @endforeach
+                @endforeach'
+                @endif
             </tbody>
         </table>
         <div class="d-flex justify-content-center">

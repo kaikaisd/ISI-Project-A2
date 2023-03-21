@@ -35,6 +35,11 @@
                 </tr>
             </thead>
             <tbody>
+                @if (count($products) == 0)
+                    <tr>
+                        <td colspan="6" class="text-center">No Products Found</td>
+                    </tr>
+                @else
                 @foreach ($products as $product)
                     <tr>
                         <td>{{ $product->id }}</td>
@@ -57,6 +62,7 @@
                         </td>
                     </tr>
                 @endforeach
+                @endif
             </tbody>
         </table>
         <div class="d-flex justify-content-center">
