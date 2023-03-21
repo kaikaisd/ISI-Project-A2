@@ -190,6 +190,21 @@ class VendorController extends Controller
             return redirect()->route('vendor.product.action', ['id' => $request->route('id')])->with(['success' => 'Image deleted successfully']);
         }
         //dd($request->all());
+        $request->validate([
+            'name' => 'required',
+            'price' => 'required',
+            'quantity' => 'required',
+            'brand_id' => 'required',
+            'category_id' => 'required',
+            'description' => 'required',
+            'isbn' => 'required',
+            'author' => 'required',
+            'publisher' => 'required',
+            'release_date' => 'required',
+            'pages' => 'required',
+        ]);
+
+
         $product = $product->updateOrCreate(['id' => $request->id], $request->all());
         if ($request->hasFile('new_image')){
             //dd($request->all());

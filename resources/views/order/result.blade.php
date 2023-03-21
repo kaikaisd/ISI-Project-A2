@@ -8,11 +8,14 @@
                 <h2>Order Successful!</h2>
                 <h3>Your Order ID is {{ $orderId }}</h3>
                 <p>Thank you for shopping with us. We will contact you soon.</p>
-                <a herf="{{ route('order.detail', ['id' => $orderId]) }}" class="btn btn-primary">View Order</a>
+        </div>
+        <a href="{{ route('order.detail', ['id' => $orderId]) }}" class="btn btn-primary">View Order</a>
+
             @else
                 <i class="fas fa-times-circle text-danger" style="font-size: 8rem;"></i>
                 <h2>Order Failed.</h2>
                 <p>{{ $message }}</p>
+    </div>
             @endif
             
         </div>

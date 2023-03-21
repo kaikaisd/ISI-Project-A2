@@ -18,6 +18,11 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @if ($orders->count() == 0)
+                            <tr>
+                                <td colspan="5">No orders found.</td>
+                            </tr>
+                        @endif
                         @foreach ($orders as $order)
                             <tr>
                                 <td>{{ $order->id }}</td>
@@ -29,27 +34,30 @@
                                     }
                                 @endphp
                                 <td>${{ $sum }}</td>
-                                <td style="font-size: 1.25rem;">{{$order->status}}</td>
+                                <td style="font-size: 1.25rem;">{{ $order->status }}</td>
                                 <td>
                                     <a href="{{ route('order.detail', $order->id) }}" class="btn btn-primary">
                                         <i class="fa-solid fa-eye"></i>
-                                        </a>
-                                            
-                                            @if($order->status == 'Pending')
-                                            <span>&nbsp;</span>
-                                            <a href="{{ route('order.cancel', $order->id) }}" onClick="confirm('Do you want to cancel the order {{$order->id}} ?')" class="btn btn-danger"><i class="fa-solid fa-ban"></i></a>
-                                            @endif</td>
+                                    </a>
+
+                                    @if ($order->status == 'Pending')
+                                        <span>&nbsp;</span>
+                                        <a href="{{ route('order.cancel', $order->id) }}"
+                                            onClick="confirm('Do you want to cancel the order {{ $order->id }} ?')"
+                                            class="btn btn-danger"><i class="fa-solid fa-ban"></i></a>
+                                    @endif
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
             </div>
-            <br/>
+            <br />
             <div class="col-md-12 d-grid gap-2">
                 <a href="{{ route('order.index') }}" class="btn btn-primary">View All Orders</a>
             </div>
         </div>
-        <br/>
+        <br />
         <div class="row">
             <div class="col-md-12">
                 <h3>Change Password</h3>
@@ -61,8 +69,8 @@
                     </div>
                     <div class="form-group">
                         <label for="password_confirmation">Confirm New Password</label>
-                        <input type="password" class="form-control" id="password_confirmation"
-                            name="password_confirmation" required>
+                        <input type="password" class="form-control" id="password_confirmation" name="password_confirmation"
+                            required>
                     </div>
                     <button type="submit" class="btn btn-primary">Change Password</button>
                 </form>

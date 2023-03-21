@@ -30,14 +30,19 @@
                                         <td width='3'><input id="quantity[{{ $key->product_id }}]" type="number"
                                                 value="{{ $key->quantity }}"
                                                 onChange='onChangeQuantity({{ $key->product_id }})' /></td>
-                                        <td class="{{ $key->product->isPromotion == 1 ? 'text-danger' :'' }}">${{ $key->product->isPromotion == 1 ? $key->product->promoPrice : $key->product->price }}</td>
-                                        <td class="{{ $key->product->isPromotion == 1 ? 'text-danger' :'' }}">${{ $key->product->isPromotion == 1 ? $key->product->promoPrice * $key->quantity : $key->product->price * $key->quantity }}</td>
+                                        <td class="{{ $key->product->isPromotion == 1 ? 'text-danger' : '' }}">
+                                            ${{ $key->product->isPromotion == 1 ? $key->product->promoPrice : $key->product->price }}
+                                        </td>
+                                        <td class="{{ $key->product->isPromotion == 1 ? 'text-danger' : '' }}">
+                                            ${{ $key->product->isPromotion == 1 ? $key->product->promoPrice * $key->quantity : $key->product->price * $key->quantity }}
+                                        </td>
                                         <td>
                                             <button type="button" class="btn btn-danger"
                                                 onclick="deleteCart({{ $key->product_id }})"><i
                                                     class="fa-solid fa-trash"></i></button>
-																										&nbsp;
-																						<a href="{{ route('product.detail', ['id' => $key->product_id]) }}" class="btn btn-primary"><i class="fa-sharp fa-solid fa-eye"></i></a>
+                                            &nbsp;
+                                            <a href="{{ route('product.detail', ['id' => $key->product_id]) }}"
+                                                class="btn btn-primary"><i class="fa-sharp fa-solid fa-eye"></i></a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -66,7 +71,7 @@
                 <div class="row">
                     <div class="col-md-12 d-grid gap-2">
                         <button id="submit" type="submit" class="btn btn-primary btn-lg"
-                            onclick="this.disabled = true">Place Order</button>
+                            >Place Order</button>
                     </div>
                 </div>
             </form>
@@ -114,6 +119,11 @@
                 }
             });
         }
+        $('#submit').click(function() {
+            $(this).attr('disabled', true);
+            $(this).html('Please wait...');
+        });
+
         $(document).ready(function() {
             $(window).keydown(function(event) {
                 if (event.keyCode == 13) {

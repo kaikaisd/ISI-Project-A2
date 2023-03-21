@@ -66,8 +66,8 @@ Route::group(['prefix' => '/order'],function(){
     Route::get('/',[OrderController::class, 'index'])->name('order.index');
     Route::get('/{id}',[OrderController::class, 'detail'])->name('order.detail');
     Route::get('/{id}/cancel',[OrderController::class, 'cancel'])->name('order.cancel');
-    Route::get('/{id}/review',[OrderController::class, 'index'])->name('order.review');
-    Route::post('/{id}/review',[OrderController::class, 'index'])->name('order.review');
+    Route::get('/{id}/review',[OrderController::class, 'review'])->name('order.review');
+    Route::post('/{id}/review',[OrderController::class, 'reviewStore'])->name('review.store');
 })->middleware('auth');
 
 Route::group(['prefix'=>'/vendor'],function(){

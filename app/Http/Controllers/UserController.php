@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Comment;
 use App\Models\Cart;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -52,31 +53,15 @@ class UserController extends Controller
         return redirect()->route('user.order');
     }
 
-    public function review(Request $request){
-        if ($request->id){
-            $order = Order::find($request->id);
-            if ($order->user_id != $request->user()->id){
-                return redirect()->route('user.index');
-            }
-            if ($request->isMethod('post')){
-                $order->rating = $request->rating;
-                $order->review = $request->review;
-                $order->save();
-                return redirect()->route('user.order');
-            }
-            return view('user.review', compact('order'));
-        }
-    }
-
     public function updatePassword(Request $request){
         if ($request->isMethod('post')){
             $request->validate([
-                'password' => 'required|min:6',
+                'password' => 'required|min:6|regex:/[A-Z]/|regex:/[0-9]/',
                 'password_confirmation' => 'required|same:password',
             ]);
             //dd($request->all());
             $user = $request->user();
-            $user->password = bcrypt($request->password);
+            $user->password = Hash::make($request->password);
             $user->save();
             return redirect()->route('user.index')->with('success', 'Update password successfully');
         }

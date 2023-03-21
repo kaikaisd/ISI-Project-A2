@@ -12,9 +12,12 @@ if($order->status == 'Pending') {
 @section('content')
     <div class="container">
         <h2>Order Form</h2>
-        <h3 class="text-end">Order ID: {{ $order->id }}</h3>
-        <h3 class="text-end">Order Status: <span class="{{ $color }}">{{ $order->status }}</span>
-        <h3 class="text-end">Last Updated: {{ $order->updated_at }}</span>
+        <div class="">
+            <a href="{{ route('order.review', ['id' => $order->id]) }}" class="text-start btn btn-primary">Review Order</a>
+            <h3 class="text-end">Order ID: {{ $order->id }}</h3>
+            <h3 class="text-end">Order Status: <span class="{{ $color }}">{{ $order->status }}</span>
+            <h3 class="text-end">Last Updated: {{ $order->updated_at }}</span>
+        </div>
         </h3>
         <div class="row mt-4">
             <div class="col-md-6">

@@ -50,6 +50,13 @@
                                             <button class="btn btn-danger" type="submit">Cancel</button>
                                         </form>
                                     @endif
+                                    @if ($order->status == 'Delivered')
+                                        <form action="{{ route('order.review', ['id' => $order->id]) }}" method="GET"
+                                            class="d-inline">
+                                            @csrf
+                                            <button class="btn btn-success" type="submit">Review</button>
+                                        </form>
+                                    @endif
                                 </td>
                             </tr>
                             @endif
@@ -103,6 +110,13 @@
                                             class="d-inline">
                                             @csrf
                                             <button class="btn btn-danger" type="submit">Cancel</button>
+                                        </form>
+                                    @endif
+                                    @if ($order->status == 'Delivered')
+                                        <form action="{{ route('order.review', ['id' => $order->id]) }}" method="GET"
+                                            class="d-inline">
+                                            @csrf
+                                            <button class="btn btn-success" type="submit">Review</button>
                                         </form>
                                     @endif
                                 </td>

@@ -6,6 +6,7 @@ use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Product;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use Laravel\Ui\Presets\React;
 
@@ -132,5 +133,46 @@ class OrderController extends Controller
         $order->status = Order::statusFormat($order->status);
 
         return view('order.detail', compact('order', 'carts'));
+    }
+
+    public function review(Request $request, Order $order, OrderProduct $orderProduct){
+        $carts = Cart::itemCount();
+        $order = Order::find($request->route('id'));
+        $reviews = Comment::where('order_id', $order->id);
+        if (auth()->user()->id != $order->user_id){
+            return redirect()->back()->with('error', 'You are not allowed to review this product');
+        }
+        if ($order->status != 3){
+            return redirect()->back()->with('error', 'You are not allowed to review this product');
+        }
+        $orderProduct = OrderProduct::where('order_id','=',$request->id);
+        if ($orderProduct->count() == 0){
+            return redirect()->back()->with('error', 'You are not allowed to review this product');
+        }
+
+        return view('order.review', compact('order', 'orderProduct', 'carts', 'reviews'));
+    }
+
+    public function reviewStore(Request $request, Order $order, OrderProduct $orderProduct, Comment $comment){
+        if (!isset(auth()->user()->id)) {
+            return redirect()->route('index');
+        }
+        if ($request->rating == null){
+            return redirect()->route('order.review', $request->order_id)->with('error', 'Please rate the product');
+        }
+        if ($request->reviews == null){
+            return redirect()->route('order.review', $request->order_id)->with('error', 'Please write a review');
+        }
+        $orderProduct = OrderProduct::where('order_id','=',$request->order_id);
+        if ($orderProduct->count() == 0){
+            return redirect()->route('order.review', $request->order_id)->with('error', 'You are not allowed to review this product');
+        }
+        $comment = new Comment();
+        $comment->user_id = auth()->user()->id;
+        $comment->product_id = $request->product_id;
+        $comment->rating = $request->rating;
+        $comment->reviews = $request->reviews;
+        $comment->save();
+        return redirect()->route('order.index')->with('success', 'Review has been submitted successfully');
     }
 }
