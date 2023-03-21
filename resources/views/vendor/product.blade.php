@@ -41,7 +41,11 @@
                         <td>{{ $product->name }}</td>
                         <td>{{ $product->quantity }}</td>
                         <td>${{ $product->price }}</td>
+                        @if (count($product->productPicture) > 0)
                         <td><img src="{{ asset($product->productPicture[0]->path) }}" alt="{{ $product->name }}" style="max-height: 80px;"></td>
+                        @else
+                        <td>No Image</td>
+                        @endif
                         <td>
                             <a href="{{ route('vendor.product.action', ['id' => $product->id, 'action' => 'edit']) }}"
                                 class="btn btn-primary btn-sm">Edit</a>&nbsp;
