@@ -102,7 +102,7 @@
                         </select>
                     </div>
                     <div class="form-check">
-                        <input type="hidden" name="isAvailable" value="0">
+                        <input type="hidden" name="isOverSale" value="0">
                         <input type="checkbox" name="isOverSale" class="form-check-input"
                             value="1"{{ $product->isOverSale ? ' checked' : '' }}>
                         <label class="form-check-label">Is Over Sale?</label>
