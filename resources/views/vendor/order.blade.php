@@ -53,6 +53,11 @@
                 </tr>
             </thead>
             <tbody>
+                @if (count($orders) == 0)
+                    <tr>
+                        <td colspan="6" class="text-center">No orders found</td>
+                    </tr>
+                @endif
                 @foreach ($orders as $order)
                     <tr>
                         <td>{{ $order->id }}</td>
