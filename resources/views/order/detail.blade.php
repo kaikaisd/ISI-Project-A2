@@ -13,7 +13,9 @@ if($order->status == 'Pending') {
     <div class="container">
         <h2>Order Form</h2>
         <div class="">
-            <a href="{{ route('order.review', ['id' => $order->id]) }}" class="text-start btn btn-primary">Review Order</a>
+            @if ($order->status == 'Delivered')
+                <a href="{{ route('order.review', ['id' => $order->id]) }}" class="text-start btn btn-primary">Review Order</a>
+            @endif
             <h3 class="text-end">Order ID: {{ $order->id }}</h3>
             <h3 class="text-end">Order Status: <span class="{{ $color }}">{{ $order->status }}</span>
             <h3 class="text-end">Last Updated: {{ $order->updated_at }}</span>
