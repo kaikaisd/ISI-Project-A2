@@ -49,10 +49,9 @@
                         <td>
                             <a href="{{ route('vendor.product.action', ['id' => $product->id, 'action' => 'edit']) }}"
                                 class="btn btn-primary btn-sm">Edit</a>&nbsp;
-                            <form action="{{ route('vendor.product.action', ['id' => $product->id, 'action' => 'destory']) }}" method="POST"
+                            <form action="{{ route('vendor.product.action', ['id' => $product->id, 'action' => 'delete']) }}" method="POST"
                                 style="display: inline-block;">
                                 @csrf
-                                @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                             </form>
                         </td>

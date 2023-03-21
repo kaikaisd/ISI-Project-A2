@@ -189,6 +189,11 @@ class VendorController extends Controller
             $path->delete();
             return redirect()->route('vendor.product.action', ['id' => $request->route('id')])->with(['success' => 'Image deleted successfully']);
         }
+        if ($request->route('action') == 'delete'){
+            $product->find($request->route('id'))->delete();
+            return redirect()->route('vendor.product.index', 302)->with(['success' => 'Product deleted successfully']);
+        }
+
         //dd($request->all());
         $request->validate([
             'name' => 'required',
