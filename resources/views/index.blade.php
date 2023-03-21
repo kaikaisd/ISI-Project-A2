@@ -42,8 +42,13 @@
                 @foreach ($products as $product)
                     <div class="col-md-3">
                         <div class="card">
+                            @if ($product->productPicture->count() > 0)
+
                             <img class="card-img-top" src="{{ asset($product->productPicture[0]->path) }}"
                                 alt="{{ $product->name }}">
+                                @else
+                                <h3>No Image</h3>
+                                @endif
                             <div class="card-body">
                                 <h4 class="card-title">{{ $product->name }}</h4>
                                 @if ($product->isPromotion)

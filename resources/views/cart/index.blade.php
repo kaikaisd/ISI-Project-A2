@@ -29,8 +29,12 @@
                                 @endif
                                 @foreach ($cartItem as $key)
                                     <tr>
+                                        @if ($key->product->productPicture->count() == 0)
+                                            <td>No Image</td>
+                                        @else
                                         <td><img src="{{ asset($key->product->productPicture[0]->path) }}" width="50"
                                                 alt="{{ $key->product->name }}"></td>
+                                        @endif
                                         <td>{{ $key->product->name }}</td>
                                         <td width='3'><input id="quantity[{{ $key->product_id }}]" type="number"
                                                 value="{{ $key->quantity }}"
