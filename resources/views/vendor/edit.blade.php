@@ -8,7 +8,7 @@
             action="{{ route('vendor.product.action', ['id' => request('id') == 'new' ? 'new' : $product->id, 'action' => request('id') == 'new' ? 'create' : 'update']) }}"
             method="POST" enctype="multipart/form-data">
             @csrf
-
+            <input hidden name="id" value="{{ request('id') == 'new' ? 'new' : $product->id }}">
             <div class="row">
                 <div class="col-md-6">
                     @if (request('id') == 'new')
@@ -19,9 +19,11 @@
                     @else
                         <h4>Product Images:</h4>
                         <div class="row mb-4">
-                            @foreach ($product->productPicture as $image)
+                            @foreach ($product->productPicture->sortBy('order') as $image)
                                 <div class="col-md-4 mb-4">
                                     <img src="{{ asset($image->path) }}" alt="{{ $product->name }}" style="max-height: 100px;">
+                                    <input type="number" name="image_order[{{ $image->id }}]" class="form-control mt-2"
+                                        value="{{ $image->order }}">
                                     <div class="mt-2">
                                         <button type="button" class="btn btn-danger btn-sm ml-2"
                                             onclick="deleteImage({{ $image->id }})">Delete</button>

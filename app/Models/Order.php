@@ -19,6 +19,7 @@ class Order extends Model
     protected $fillable = [
         'user_id',
         'status',
+        'updater'
     ];
 
     public function user()

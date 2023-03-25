@@ -5,6 +5,7 @@
         <h2>Products</h2>
 
         <form action="{{ route('index') }}" method="GET">
+            <input type="hidden" name="search" value="{{ request()->get('search') }}">
             <div class="form-group">
                 <label for="brand">Filter by Brand:</label>
                 <select class="form-control" id="brand" name="brand">
@@ -42,15 +43,21 @@
                 @foreach ($products as $product)
                     <div class="col-md-3">
                         <div class="card">
-                            @if ($product->productPicture->count() > 0)
-
-                            <img class="card-img-top" src="{{ asset($product->productPicture[0]->path) }}"
-                                alt="{{ $product->name }}">
-                                @else
+                            @php
+                                $productPicture = $product->productPicture->sortBy('order') ;
+                                //  dd($productPicture);
+                            @endphp
+                            @if ($product->productPicture->sortBy('order')->count() > 0)
+                                <img class="card-img-top"
+                                    src="{{ asset($productPicture[0]->path) }}"
+                                    alt="{{ $product->name }}"
+                                    data-order="{{ $product->productPicture->sortBy('order')[0]->id }}">
+                            @else
                                 <h3>No Image</h3>
-                                @endif
+                            @endif
                             <div class="card-body">
                                 <h4 class="card-title">{{ $product->name }}</h4>
+                                <h6 class="card-title">Brand: {{ $product->brand->name }}</h6>
                                 @if ($product->isPromotion)
                                     <p class="card-text"><del>${{ $product->price }}</del></p>
                                     <p class="card-text" style="font-size: 28px; color:red; font-weight: bold;">

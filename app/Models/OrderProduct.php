@@ -24,7 +24,7 @@ class OrderProduct extends Model
     }
 
     public function comment(){
-        return $this->hasOne(Comment::class);
+        return $this->hasOne(Comment::class,'product_id','product_id');
     }
 
     public function product(){

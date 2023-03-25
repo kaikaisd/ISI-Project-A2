@@ -22,7 +22,7 @@ return new class extends Migration
             $table->foreign('product_id')->references('id')->on('product')->cascadeOnDelete();
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
             $table->longText('reviews');
-            $table->decimal('rating', 1, 1);
+            $table->integer('rating')->default(5);
             $table->timestamps();
         });
     }

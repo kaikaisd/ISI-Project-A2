@@ -13,7 +13,7 @@
                             @endforeach
                         </div>
                         <div class="carousel-inner">
-                            @foreach ($product->productPicture as $index => $image)
+                            @foreach ($product->productPicture->sortBy('order') as $index => $image)
                                 <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
                                     <img src="{{ asset($image->path)}}" alt="{{ $product->name }}" class="d-block w-100">
                                 </div>
@@ -34,6 +34,11 @@
                 <div class="col-md-6">
                     <h1>{{ $product->name }}</h1>
                     <p>{{ $product->description }}</p>
+                        <div class="d-flex align-items-center">
+                            <h4 class="text-bold">Rating:</h4>&nbsp;
+                            <input type="hidden" class="rating" data-empty="fa-regular fa-star fa-xl" data-filled="fa-solid fa-star fa-xl" style="color: gold;" data-start="0" data-stop="5" value="{{ $avgRating }}" readonly>
+                        </div>
+                    <br>
                     @if ($product->isPromotion == 1)
                         <h4 class=""><del>${{ $product->price}}</del></h3>
                         <h2 class="text-danger text-bold" >${{ $product->promoPrice}}</h2>
@@ -96,6 +101,17 @@
                             <a href="{{ route('login') }}" class="btn btn-primary btn-block">Log In to Add to Cart</a>
                         @endif
                     </form>
+
+                    <ul class="list-group">
+                        @foreach($review as $review)
+                            <li class="list-group-item">
+                                <div class="ms-2 me-auto">
+                                    <div class="fw-bold">{{ $review->user->name }}</div>
+                                    {{ $review->reviews }}
+                                </div>
+                            </li>
+                        @endforeach
+                    </ul>
                 </div>
             </div>
         </div>

@@ -29,12 +29,17 @@ class OrderController extends Controller
         $sort = $request->query('sort', 'created_at');
         $order = $request->query('order', 'asc');
         $user = auth()->user();
-        $orders = Order::where('user_id', $user->id)->orderBy($sort, $order)->get();
-        $orders->map(function ($order) {
+        $activeOrders = Order::where('user_id', $user->id)->whereIn('status',[1,2])->orderBy($sort, $order)->get();
+        $inactiveOrders = Order::where('user_id', $user->id)->whereNotIn('status',[1,2])->orderBy($sort, $order)->get();
+        $activeOrders->map(function ($order) {
             $order->status = Order::statusFormat($order->status);
             return $order;
         });
-        return view('order.index', compact('orders', 'sort', 'order','carts'));
+        $inactiveOrders->map(function ($order) {
+            $order->status = Order::statusFormat($order->status);
+            return $order;
+        });
+        return view('order.index', compact('inactiveOrders', 'activeOrders', 'sort', 'order','carts'));
     }
 
     /**
@@ -49,13 +54,7 @@ class OrderController extends Controller
             return redirect()->route('index');
         }
         $carts = Cart::where('user_id', auth()->user()->id)->get();
-        $totalPrice = $carts->sum(function ($carts) {
-            if ($carts->product->isPromotion == 1){
-                return $carts->quantity * $carts->product->promotion_price;
-            }else{
-                return $carts->quantity * $carts->product->price;
-            }
-        });
+        $totalPrice = 0;
         $_GLOBAL['flag'] = 0;
 
         foreach($carts as $item){
@@ -65,6 +64,11 @@ class OrderController extends Controller
             }
             if($item->product->quantity < $item->quantity){
                 $_GLOBAL['flag'] = 1;
+            }
+            if ($item->product->isPromotion == 1){
+                $totalPrice += ($item->product->promotion_price * $item->quantity);
+            }else{
+                $totalPrice += ($item->product->price * $item->quantity);
             }
         }
 
@@ -123,13 +127,16 @@ class OrderController extends Controller
         }
         $order = Order::find($request->route('id'));
         $order->status = -1;
+        $order->updater = 0;
         $order->save();
         return redirect()->route('order.index')->with('success', 'Order has been cancelled successfully');
     }
 
     public function detail(Request $request, Order $order){
         $carts = Cart::itemCount();
-        $order = Order::find($request->route('id'));
+        // Get order detail and group by product id on order_product table
+        $order = Order::with('orderProduct.product')->where('id',$request->route('id'))->get();
+        $order = $order[0];
         $order->status = Order::statusFormat($order->status);
 
         return view('order.detail', compact('order', 'carts'));
@@ -138,17 +145,17 @@ class OrderController extends Controller
     public function review(Request $request, Order $order, OrderProduct $orderProduct){
         $carts = Cart::itemCount();
         $order = Order::find($request->route('id'));
-        $reviews = Comment::where('order_id', $order->id);
         if (auth()->user()->id != $order->user_id){
             return redirect()->back()->with('error', 'You are not allowed to review this product');
         }
         if ($order->status != 3){
             return redirect()->back()->with('error', 'You are not allowed to review this product');
         }
-        $orderProduct = OrderProduct::where('order_id','=',$request->id);
+        $orderProduct = OrderProduct::where('order_id','=',$request->id)->groupBy('product_id')->get();
         if ($orderProduct->count() == 0){
             return redirect()->back()->with('error', 'You are not allowed to review this product');
         }
+        $reviews = Comment::where('order_id', $order->id)->get()->keyBy('product_id');
 
         return view('order.review', compact('order', 'orderProduct', 'carts', 'reviews'));
     }
@@ -167,12 +174,15 @@ class OrderController extends Controller
         if ($orderProduct->count() == 0){
             return redirect()->route('order.review', $request->order_id)->with('error', 'You are not allowed to review this product');
         }
-        $comment = new Comment();
-        $comment->user_id = auth()->user()->id;
-        $comment->product_id = $request->product_id;
-        $comment->rating = $request->rating;
-        $comment->reviews = $request->reviews;
-        $comment->save();
+        foreach($request->product_id as $value){
+            $comment = (Comment::find($value) ?? new Comment());
+            $comment->user_id = auth()->user()->id;
+            $comment->order_id = $request->order_id;
+            $comment->product_id = $value;
+            $comment->rating = $request->rating[$value] ?? 5;
+            $comment->reviews = $request->reviews[$value] ?? '';
+            $comment->save();
+        }
         return redirect()->route('order.index')->with('success', 'Review has been submitted successfully');
     }
 }

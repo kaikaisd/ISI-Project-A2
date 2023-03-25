@@ -51,12 +51,12 @@ class Product extends Model
 
     public function productPicture()
     {
-        return $this->hasMany(ProductPicture::class);
+        return $this->hasMany(ProductPicture::class)->orderBy('order');
     }
 
     public function comment()
     {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Comment::class, 'product_id', 'id');
     }
 
     public function cart()

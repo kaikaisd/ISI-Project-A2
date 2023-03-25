@@ -13,9 +13,11 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-rating@0.0.1/bootstrap-rating.min.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-rating@0.0.1/bootstrap-rating.min.js"></script>
 
     <!-- Scripts -->
     <script>
@@ -45,6 +47,8 @@
                     @else
                     <ul class="navbar-nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
                         <form class="d-flex center" action="{{ route('index') }}" method="GET" role="search">
+                            <input hidden name="price" value="{{ request('price') }}">
+                            <input hidden name="brand" value="{{ request('brand') }}">
                             <input class="form-control me-2" type="search" placeholder="search" aria-label="search"
                                 name="search" id="search">
                             <button class="btn btn-outline-success" onclick="e.preventDefault(); this.form[0].submit();"

@@ -6,6 +6,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Models\Brand;
 use App\Models\Cart;
+use App\Models\Comment;
 
 class ProductController extends Controller
 {
@@ -22,104 +23,47 @@ class ProductController extends Controller
         $query = Product::query();
         $brands = Brand::all();
         $carts = Cart::itemCount();
-        $selectedBrand = $request->input('brand','all');
-        // Apply brand filter if selected
-        if ($request->has('brand')) {
-            if ($selectedBrand === 'all') {
-                $query->where('id', '>', 0);
-            } else {
-                $query->where('id', $selectedBrand);
-            }
-        }
-
+        
         if ($request->has('search')) {
             $query->where('name', 'like', '%' . $request->input('search') . '%');
         }
 
+        $selectedBrand = $request->input('brand','all');
+        // Apply brand filter if selected
+        if ($request->has('brand')) {
+            if ($selectedBrand === 'all') {
+                $query->where('brand_id', '>', 0);
+            } else {
+                $query->where('brand_id', '=', $selectedBrand);
+            }
+        }
+
+        
+        $price = $request->input('price','asc');
         if ($request->has('price')) {
-            if ($request->input('price') === 'asc') {
+            if ($price === 'asc') {
                 $query->orderBy('price', 'asc');
             } else {
                 $query->orderBy('price', 'desc');
             }       
         }
 
-        // Sort by price if selected, otherwise default to name
-        $sort = $request->input('sort', 'name');
-        if ($sort === 'price') {
-            $query->orderBy('price', 'asc');
-        } else {
-            $query->orderBy('name', 'asc');
-        }
 
-        $products = $query->paginate(8);
+        $products = $query->paginate(10);
 
-        return view('index', compact('products', 'sort', 'brands','carts'));
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Product $product)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Product $product)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Product $product)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Product $product)
-    {
-        //
+        return view('index', compact('products', 'brands','carts'));
     }
 
     public function details(Request $request){
         $carts = Cart::itemCount();
-
+        $review = Comment::where('product_id', $request->route('id'))->limit(3)->get();
+        $avgRating = Comment::where('product_id', $request->route('id'))->avg('rating');
         if ($request->route('id')) {
             $product = Product::find($request->route('id'));
-            return view('productDetails', compact('product','carts'));
+            
+            return view('productDetails', compact('product','carts','review', 'avgRating'));
         }
 
+        return redirect()->route('index');
     }
 }

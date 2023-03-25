@@ -41,7 +41,8 @@ class ProductPictureFactory extends Factory
     {
         return [
             'product_id' => mt_rand(1, 10),
-            'path' => $this->picList[mt_rand(1,10)]
+            'path' => $this->picList[mt_rand(1,10)],
+            'order' => $this->faker->numberBetween(1, 5)
         ];
     }
 }

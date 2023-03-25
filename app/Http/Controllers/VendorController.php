@@ -93,28 +93,33 @@ class VendorController extends Controller
         if (!auth()->check()){
             return redirect()->route('login');
         }
-        $products = Product::query();
-        if ($request->sort){
-            if ($request->sort == 'id'){
-                if ($request->order == 'asc'){
-                    $products = $products->orderBy('id');
-                }else{
-                    $products = $products->orderBy('name');
-                }
-            }
-            if ($request->sort == 'quantity'){
-                if ($request->order == 'asc'){
-                    $products = $products->orderBy('quantity');
-                }else{
-                    $products = $products->orderBy('price');
-                }
+        $query = Product::query();
+        $brands = Brand::all(); 
+        if ($request->has('search')) {
+            $query->where('name', 'like', '%' . $request->input('search') . '%');
+        }
+
+        $selectedBrand = $request->input('brand','all');
+        // Apply brand filter if selected
+        if ($request->has('brand')) {
+            if ($selectedBrand === 'all') {
+                $query->where('brand_id', '>', 0);
+            } else {
+                $query->where('brand_id', '=', $selectedBrand);
             }
         }
-        if ($request->search){
-            $products = $products->where('name', 'like', '%'.$request->search.'%')->orWhere('id', 'like', '%'.$request->search.'%');
+
+        
+        $price = $request->input('price','asc');
+        if ($request->has('price')) {
+            if ($price === 'asc') {
+                $query->orderBy('price', 'asc');
+            } else {
+                $query->orderBy('price', 'desc');
+            }       
         }
-        $products = $products->paginate(10);
-        return view('vendor.product', compact('products'));
+        $products = $query->paginate(10);
+        return view('vendor.product', compact('products', 'brands'));
     }
 
     public function productDetails(Request $request){
@@ -141,16 +146,19 @@ class VendorController extends Controller
             $order = $order->findOrFail($request->route('id'));
             if ($request->route('action') == 'hold'){
                 $order->status = 2;
+                $order->updater = 1;
                 $order->save();
                 return redirect()->route('vendor.order.index', 302)->with(['success' => 'Order held successfully']);
             }
             if ($request->route('action') == 'done'){
                 $order->status = 3;
+                $order->updater = 1;
                 $order->save();
                 return redirect()->route('vendor.order.index', 302)->with(['success' => 'Order shipped successfully']);
             }
             if ($request->route('action') == 'cancel'){
                 $order->status = -1;
+                $order->updater = 1;
                 $order->save();
                 return redirect()->route('vendor.order.index', 302)->with(['success' => 'Order canceled successfully']);
             }
@@ -173,6 +181,7 @@ class VendorController extends Controller
             ]);
             $order = $order->find($request->route('id'));
             $order->status = $request->status;
+            $order->updater = 1;
             $order->save();
             return redirect()->route('vendor.order.index', 302)->with(['success' => 'Order updated successfully']);
         }
@@ -197,27 +206,35 @@ class VendorController extends Controller
         //dd($request->all());
         $request->validate([
             'name' => 'required',
-            'price' => 'required',
-            'quantity' => 'required',
+            'price' => 'required|numeric|min:0',
+            'quantity' => 'required|numeric|min:0',
             'brand_id' => 'required',
             'category_id' => 'required',
-            'description' => 'required',
+            'description' => 'required|min:5|max:1000',
             'isbn' => 'required',
             'author' => 'required',
             'publisher' => 'required',
-            'release_date' => 'required',
-            'pages' => 'required',
+            'release_date' => 'required|date|before:tomorrow|after:1900-01-01',
+            'pages' => 'required|numeric',
         ]);
 
+        
 
         $product = $product->updateOrCreate(['id' => $request->id], $request->all());
         if ($request->hasFile('new_image')){
             //dd($request->all());
             foreach($request->new_image as $image)
-            {
+            {   
                 $path = $image->store('img', 'public');
                 //dd($path);
                 $result = $picture->updateOrCreate(['product_id' => $product->id, 'path' => 'storage/'.$path]);
+            }
+        }else{
+            //dd($request->all());
+            foreach($request->image_order as $key => $order)
+            {   
+                //dd($key, $order);
+                $result = $picture->where('id', $key)->update(['order' => $order]);
             }
         }
         if ($request->continue_edit){
