@@ -228,24 +228,26 @@ class VendorController extends Controller
 
 
         $product = $product->updateOrCreate(['id' => $request->id], $request->all());
-        if ($request->hasFile('new_image')) {
-            //dd($request->all());
-            foreach ($request->new_image as $image) {
-                $path = $image->store('img', 'public');
-                //dd($path);
-                $result = $picture->updateOrCreate(['product_id' => $product->id, 'path' => 'storage/' . $path]);
-            }
-        } else {
-            //dd($request->all());
-            if ($request->image_order) {
-                foreach ($request->image_order as $key => $order) {
-                    //dd($key, $order);
-                    $result = $picture->where('id', $key)->update(['order' => $order]);
+        if ($request->id != 'new') {
+            if ($request->hasFile('new_image')) {
+                //dd($request->all());
+                foreach ($request->new_image as $image) {
+                    $path = $image->store('img', 'public');
+                    //dd($path);
+                    $result = $picture->updateOrCreate(['product_id' => $product->id, 'path' => 'storage/' . $path]);
+                }
+            } else {
+                //dd($request->all());
+                if ($request->image_order) {
+                    foreach ($request->image_order as $key => $order) {
+                        //dd($key, $order);
+                        $result = $picture->where('id', $key)->update(['order' => $order]);
+                    }
                 }
             }
-        }
-        if ($request->continue_edit) {
-            return redirect()->route('vendor.product.action', ['id' => $product->id, 'action' => 'edit'])->with(['success' => 'Add product successfully']);
+            if ($request->continue_edit) {
+                return redirect()->route('vendor.product.action', ['id' => $product->id, 'action' => 'edit'])->with(['success' => 'Add product successfully']);
+            }
         }
         return redirect()->route('vendor.product.index')->with(['success' => 'Product saved successfully']);
     }
