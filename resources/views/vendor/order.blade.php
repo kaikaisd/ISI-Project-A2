@@ -23,6 +23,7 @@
                 <div class="col-md-2">
                     <label for="active">Active/Inactive Order: {!! request('active') === 1 !!}</label>
                     <select name="active" id="active" class="form-control">
+                        <option value="" {{ request('active') == '' ? ' selected' : '' }}>All</option>
                         <option value="1" {!!  request('status') == '1' ? ' selected' : '' !!}>Active</option>
                         <option value="2" {!! request('status') == '2' ? ' selected' : '' !!}>Inactive</option>
                     </select>
