@@ -97,23 +97,26 @@
             @endif
     </div>
 
-    <script>
-        function cancelOrder() {
-            if (confirm('Are you sure you want to cancel this order?')) {
-                window.location.href = "{{ route('vendor.order.action', ['id' => $order->id, 'action' => 'cancel']) }}";
-            }
-        }
+@endsection
 
-        function holdOrder() {
-            if (confirm('Are you sure you want to put this order on hold?')) {
-                window.location.href = "{{ route('vendor.order.action', ['id' => $order->id, 'action' => 'hold']) }}";
-            }
+@section('scripts')
+<script>
+    function cancelOrder() {
+        if (confirm('Are you sure you want to cancel this order?')) {
+            window.location.href = "{{ route('vendor.order.action', ['id' => $order->id, 'action' => 'cancel']) }}";
         }
+    }
 
-        function shipOrder() {
-            if (confirm('Are you sure you want to mark this order as shipped?')) {
-                window.location.href = "{{ route('vendor.order.action', ['id' => $order->id, 'action' => 'done']) }}";
-            }
+    function holdOrder() {
+        if (confirm('Are you sure you want to put this order on hold?')) {
+            window.location.href = "{{ route('vendor.order.action', ['id' => $order->id, 'action' => 'hold']) }}";
         }
-    </script>
+    }
+
+    function shipOrder() {
+        if (confirm('Are you sure you want to mark this order as shipped?')) {
+            window.location.href = "{{ route('vendor.order.action', ['id' => $order->id, 'action' => 'done']) }}";
+        }
+    }
+</script>
 @endsection
