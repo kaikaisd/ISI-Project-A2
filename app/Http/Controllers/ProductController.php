@@ -58,6 +58,9 @@ class ProductController extends Controller
         $carts = Cart::itemCount();
         $review = Comment::where('product_id', $request->route('id'))->limit(3)->get();
         $avgRating = Comment::where('product_id', $request->route('id'))->avg('rating');
+        if ($avgRating == null) {
+            $avgRating = 0;
+        }
         if ($request->route('id')) {
             $product = Product::find($request->route('id'));
             
