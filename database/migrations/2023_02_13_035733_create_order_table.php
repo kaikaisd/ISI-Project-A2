@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id('id');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
-            $table->decimal('price', 10, 2);
+            $table->decimal('price', 20, 2);
             $table->integer('updater');
             $table->integer('status');
             $table->timestamps();
