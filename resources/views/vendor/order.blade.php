@@ -20,6 +20,14 @@
                         <option value="3" {!! request('status') == '3' ? ' selected' : '' !!}>Delivered</option>
                     </select>
                 </div>
+                <div class="col-md-2">
+                    <label for="active">Active/Inactive Order: {!! request('active') === 1 !!}</label>
+                    <select name="active" id="active" class="form-control">
+                        <option value="1" {!!  request('status') == '1' ? ' selected' : '' !!}>Active</option>
+                        <option value="2" {!! request('status') == '2' ? ' selected' : '' !!}>Inactive</option>
+                    </select>
+                </div>
+
                 <div class="col-md-3">
                     <label for="user">User:</label>
                     <input type="text" name="user" id="user" class="form-control" value="{{ request('user') }}">
@@ -46,6 +54,7 @@
                 <tr>
                     <th>ID</th>
                     <th>User</th>
+                    <th>Total amount</th>
                     <th>Status</th>
                     <th>Ordered At</th>
                     <th>Last Updated</th>
@@ -62,6 +71,7 @@
                     <tr>
                         <td>{{ $order->id }}</td>
                         <td>{{ $order->user->name }}</td>
+                        <td>{{ $order->price }}</td>
                         <td>{{ ucfirst($order->status) }}</td>
                         <td>{{ $order->created_at }}</td>
                         <td>{{ $order->updated_at }}</td>

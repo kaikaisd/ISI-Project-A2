@@ -66,6 +66,13 @@ class VendorController extends Controller
         if ($request->status) {
             $orders = $orders->where('status', $request->status);
         }
+        if ($request->active){
+            if ($request->active == 1){
+                $orders = $orders->whereIn('status', [1,2]);
+            } else {
+                $orders = $orders->whereNotIn('status', [1,2]);
+            }
+        }
         $orders = $orders->paginate(10);
         $orders->map(function ($order) {
             $order->status = Order::statusFormat($order->status);
