@@ -217,7 +217,7 @@ class VendorController extends Controller
             'quantity' => 'required|numeric|min:0',
             'brand_id' => 'required',
             'category_id' => 'required',
-            'description' => 'required|min:5|max:1000',
+            'description' => 'required|min:1|max:1000',
             'isbn' => 'required',
             'author' => 'required',
             'publisher' => 'required',
