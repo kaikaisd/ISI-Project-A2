@@ -17,6 +17,12 @@ class CaDController extends Controller
 
     public function addBrand(Request $request)
     {
+        if ($request->brandName == ""){
+            return redirect()->back()->with('error', 'Brand name cannot be empty');
+        }
+        if (Brand::where('name', $request->brandName)->exists()){
+            return redirect()->back()->with('error', 'Brand already exists');
+        }
         $brand = new Brand();
         $brand->name = $request->brandName;
         $brand->save();
@@ -25,6 +31,12 @@ class CaDController extends Controller
 
     public function addCategory(Request $request)
     {
+        if ($request->categoryName == ""){
+            return redirect()->back()->with('error', 'Category name cannot be empty');
+        }
+        if (Category::where('name', $request->categoryName)->exists()){
+            return redirect()->back()->with('error', 'Category already exists');
+        }
         $category = new Category();
         $category->name = $request->categoryName;
         $category->save();
