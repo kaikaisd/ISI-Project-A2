@@ -27,7 +27,7 @@ class OrderController extends Controller
     {
         $carts = Cart::itemCount();
         $sort = $request->query('sort', 'created_at');
-        $order = $request->query('order', 'asc');
+        $order = $request->query('order', 'desc');
         $user = auth()->user();
         $activeOrders = Order::where('user_id', $user->id)->whereIn('status',[1,2])->orderBy($sort, $order)->get();
         $inactiveOrders = Order::where('user_id', $user->id)->whereNotIn('status',[1,2])->orderBy($sort, $order)->get();
