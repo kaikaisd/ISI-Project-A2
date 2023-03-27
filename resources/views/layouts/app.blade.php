@@ -47,8 +47,8 @@
                     @else
                     <ul class="navbar-nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
                         <form class="d-flex center" action="{{ route('index') }}" method="GET" role="search">
-                            <input hidden name="price" value="{{ request('price') }}">
-                            <input hidden name="brand" value="{{ request('brand') }}">
+                            <input hidden name="price" value="{{ request('price') ?? 'asc' }}">
+                            <input hidden name="brand" value="{{ request('brand') ?? 'all' }}">
                             <input class="form-control me-2" type="search" placeholder="search" aria-label="search"
                                 name="search" id="search">
                             <button class="btn btn-outline-success" onclick="e.preventDefault(); this.form[0].submit();"
