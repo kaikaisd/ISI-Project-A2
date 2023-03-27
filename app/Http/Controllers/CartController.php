@@ -65,6 +65,9 @@ class CartController extends Controller
     public function updateCart(Request $request){
         $cart = Cart::query()->where('user_id', $request->user_id)->where('product_id', $request->product_id)->first();
         if ($cart){
+            if ($request->quantity <= 0 ){
+                return redirect()->route('cart.index')->with('error', 'Quantity must be greater than 0');
+            }
             $result = Cart::where('user_id', $request->user_id)->where('product_id', $request->product_id)->update([
                 'quantity' => $request->quantity,
             ]);
