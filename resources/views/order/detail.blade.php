@@ -20,9 +20,8 @@ if($order->status == 'Pending') {
             <h3 class="text-end">Order Status: <span class="{{ $color }}">{{ $order->status }}</span>
             <h3 class="text-end">Order created at: {{ $order->created_at }}</h3>
             <h3 class="text-end">Last Updated: {{ $order->updated_at }}</span>
-            @if ($order->status == -1)
+            @if ($order->status == 'Cancelled')
             <h3 class="text-end">Action by: {{ $order->updater == 0 ? 'User' : 'Vendor' }}</h3>
-
             @endif
         </div>
         </h3>
