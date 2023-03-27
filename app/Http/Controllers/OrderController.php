@@ -57,6 +57,9 @@ class OrderController extends Controller
         $totalPrice = 0;
         $_GLOBAL['flag'] = 0;
 
+        if ($carts->count() == 0) {
+            return redirect()->route('cart.index')->with('error', 'Your cart is empty.');
+        }
         foreach($carts as $item){
             if ($item->product->isOnSale == 0)
             {
