@@ -24,8 +24,11 @@ class ProductController extends Controller
         $brands = Brand::all();
         $carts = Cart::itemCount();
         
+
         if ($request->has('search')) {
-            $query->where('name', 'like', '%' . $request->input('search') . '%');
+            if ($request->input('search') !== '') {
+                $query->where('name', 'like', '%' . $request->input('search') . '%');
+            }
         }
 
         $selectedBrand = $request->input('brand','all');
