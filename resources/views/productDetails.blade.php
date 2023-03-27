@@ -111,6 +111,7 @@
                         <a href="{{ route('login') }}" class="btn btn-primary btn-block">Log In to Add to Cart</a>
                     @endif
                 </form>
+                <br/>
 
                 <ul class="list-group">
                     @foreach ($review as $review)
