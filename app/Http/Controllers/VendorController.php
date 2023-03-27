@@ -54,19 +54,19 @@ class VendorController extends Controller
             return redirect()->route('login');
         }
         $orders = Order::query()->orderByDesc('created_at');
-        if ($request->id) {
+        if ($request->id && $request->id != '') {
             $orders = $orders->where('id', $request->id);
         }
-        if ($request->user) {
+        if ($request->user && $request->user != '') {
             $orders = $orders->where('user_id', $request->user);
         }
-        if ($request->date) {
+        if ($request->date && $request->date != '') {
             $orders = $orders->whereDate('created_at', $request->date);
         }
-        if ($request->status) {
+        if ($request->status && $request->status != '') {
             $orders = $orders->where('status', $request->status);
         }
-        if ($request->active){
+        if ($request->active && $request->active != ''){
             if ($request->active == 1){
                 $orders = $orders->whereIn('status', [1,2]);
             } else {
