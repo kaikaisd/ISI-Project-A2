@@ -46,7 +46,7 @@ class CaDController extends Controller
     public function deleteBrand(Request $request)
     {
         $brand = Brand::find($request->id);
-        if ($brand->products->count() > 0){
+        if ($brand->product->count() > 0){
             return redirect()->back()->with('error', 'Brand cannot be deleted because it has products');
         }
         $brand->delete();
@@ -56,7 +56,7 @@ class CaDController extends Controller
     public function deleteCategory(Request $request)
     {
         $category = Category::find($request->id);
-        if ($category->products->count() > 0){
+        if ($category->product->count() > 0){
             return redirect()->back()->with('error', 'Category cannot be deleted because it has products');
         }
         $category->delete();
