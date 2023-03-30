@@ -29,12 +29,12 @@ class VendorController extends Controller
         $processingOrders = Order::query()->where('status', 2)->count();
         $completedOrders = Order::query()->where('status', 3)->count();
 
-        $topProducts = OrderProduct::query()->withCount('product')->select('product_id', DB::raw('COUNT(quantity) as sales'))->groupBy('product_id')->orderByDesc('product_id');
-        if ($request->route('start_date')) {
-            $topProducts->whereDate('created_at', '>=', $request->route('start_date'));
+        $topProducts = OrderProduct::query()->withCount('product')->select('product_id', DB::raw('COUNT(quantity) as sales'), DB::raw('SUM(price) as price'))->groupBy('product_id')->orderByDesc('product_id');
+        if ($request->has('start_date') && $request->input('start_date') != '') {
+            $topProducts->whereDate('created_at', '>=', $request->input('start_date'));
         }
-        if ($request->route('end_date')) {
-            $topProducts->whereDate('created_at', '<=', $request->route('end_date'));
+        if ($request->has('end_date') && $request->input('end_date') != '') {
+            $topProducts->whereDate('created_at', '<=', $request->input('end_date'));
         }
         $topProducts = $topProducts->limit(5)->get();
         $topProductsLabel = $topProducts->map(function ($product) {
@@ -43,8 +43,11 @@ class VendorController extends Controller
         $topProductsData = $topProducts->map(function ($product) {
             return $product->sales;
         });
+        $topProductsAmount = $topProducts->map(function ($product) {
+            return $product->price;
+        });
 
-        return view('vendor.index', compact('orders', 'newOrders', 'processingOrders', 'completedOrders', 'topProducts', 'topProductsData', 'topProductsLabel'));
+        return view('vendor.index', compact('orders', 'newOrders', 'processingOrders', 'completedOrders', 'topProducts', 'topProductsData', 'topProductsLabel', 'topProductsAmount'));
         # return view('user.index');
     }
 

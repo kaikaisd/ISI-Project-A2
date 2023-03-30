@@ -8,9 +8,13 @@
         <div class="row">
             <div class="col-md-6">
                 <h4>Top 5 Products:</h4>
-                <div class=""><canvas id="schart" width="400" height="200"></canvas></div>
-                <!-- date range picker -->
-                <form method="GET">
+                <div class=""><canvas id="schart" width="400" height="250"></canvas></div>
+            </div>
+            <div class="col-md-6">
+                <div class=""><canvas id="smchart" width="400" height="200"></canvas></div>
+            </div>
+            <div class="col-md-12 d-flex justify-content-center ">
+                <form method="GET" class="">
                     <label for="start_date">Start Date:</label>
                     <input type="date" name="start_date" value="{{ request('start_date') }}">&nbsp;
                     <label for="end_date">End Date:</label>
@@ -19,9 +23,7 @@
                     <button type="submit" class="btn btn-primary">Filter</button>
                 </form>
             </div>
-            <div class="col-md-6">
-                <div class=""><canvas id="smchart" width="400" height="200"></canvas></div>
-            </div>
+            <br/>
             <div class="col-md-12">
                 <h4>Order Summary:</h4>
                 <ul>
@@ -70,6 +72,7 @@
             }]
         },
         options: {
+            indexAxis: 'y',
             scales: {
                 y: {
                     beginAtZero: true
@@ -78,6 +81,34 @@
         }
     });
     var stx = document.getElementById('smchart').getContext('2d');
-    
+    var chart2 = new Chart(stx, {
+        type: 'bar',
+        data: {
+            labels: {!! $topProductsLabel !!},
+            datasets: [{
+                label: 'Sales Amount',
+                data: {!! $topProductsAmount !!},
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+        }
+    });
 </script>
 @endsection
