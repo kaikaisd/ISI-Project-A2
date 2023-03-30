@@ -114,7 +114,7 @@
                     @endif
                 </form>
                 <br/>
-
+                <h2>Reviews:</h2>
                 <ul class="list-group">
                     @foreach ($review as $review)
                         <li class="list-group-item">

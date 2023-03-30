@@ -53,7 +53,7 @@
                                     alt="{{ $product->name }}"
                                     data-order="{{ $product->productPicture->sortBy('order')[0]->id }}">
                             @else
-                                <h3>No Image</h3>
+                                <h3 class="text-center" style="border:3px;">No Image</h3>
                             @endif
                             <div class="card-body">
                                 <h4 class="card-title">{{ $product->name }}</h4>
@@ -67,18 +67,23 @@
                                     </p>
                                 @endif
                                 @guest
+                                <a href="{{ route('product.detail', ['id' => $product->id]) }}" class="btn btn-primary"><i class="fa-solid fa-eye"></i> Detail</a>
+
                                 @else
+                                
                                     @if ($product->isOnSale == 1)
                                         <form action="{{ route('cart.add', ['id' => $product->id]) }}" method="POST">
+                                            <a href="{{ route('product.detail', ['id' => $product->id]) }}" class="btn btn-primary"><i class="fa-solid fa-eye"></i> Detail</a>
+
                                             @csrf
                                             <input type="hidden" name="quantity" value="1">
-                                            <button type="submit" class="btn btn-primary"><i
-                                                    class="fa-solid fa-cart-plus"></i></button>
+                                            <button type="submit" class=" btn btn-primary"><i
+                                                    class="fa-solid fa-cart-plus"></i> Add</button>
                                         </form>
+                                    @else
+                                    <a href="{{ route('product.detail', ['id' => $product->id]) }}" class="btn btn-primary"><i class="fa-solid fa-eye"></i> Detail</a>
                                     @endif
                                 @endguest
-                                <a href="{{ route('product.detail', ['id' => $product->id]) }}" class="btn btn-primary"><i
-                                        class="fa-solid fa-eye"></i></a>
                             </div>
                         </div>
                         <br />

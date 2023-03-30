@@ -42,9 +42,9 @@
 
                                         @if ($order->status == 'Pending')
                                             <span>&nbsp;</span>
-                                            <a href="{{ route('order.cancel', $order->id) }}"
-                                                onClick="confirm('Do you want to cancel the order {{ $order->id }} ?')"
-                                                class="btn btn-danger"><i class="fa-solid fa-ban"></i></a>
+                                            <button
+                                                onClick="confirmCancel({{ $order->id }})"
+                                                class="btn btn-danger"><i class="fa-solid fa-ban"></i></button>
                                         @endif
                                     </td>
                                 </tr>
@@ -80,3 +80,22 @@
     </div>
     </div>
 @endsection
+
+@section('scripts')
+    <script>
+        function confirmCancel($id) {
+            if (confirm('Are you sure you want to cancel this order?')) {
+                $.ajax({
+                    url: "{{ route('order.cancel', $order->id) }}",
+                    type: 'POST',
+                    data: {
+                        _token: "{{ csrf_token() }}"
+                    },
+                    success: function(data) {
+                        location.reload();
+                    }
+                });
+            }
+        }
+
+    </script>
