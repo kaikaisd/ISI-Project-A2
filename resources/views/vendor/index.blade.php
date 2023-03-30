@@ -6,7 +6,7 @@
         <h2>Vendor Dashboard</h2>
 
         <div class="row">
-            <h4>Top 5 Products:</h4>
+            <h4>Top 5 Products Analyze:</h4>
 
             <div class="col-md-6">
                 <div class=""><canvas id="schart" width="400" height="250"></canvas></div>
