@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('title', 'Product Form')
 @section('content')
     <div class="container">
         <h2>Product Form</h2>
@@ -48,11 +48,24 @@
                         <label>Description:</label>
                         <textarea name="description" class="form-control" required>{{ $product->description }}</textarea>
                     </div>
+                    @if(request('id') == 'new')
                     <div class="form-group">
                         <label>Quantity:</label>
                         <input type="number" name="quantity" class="form-control" required
                             value="{{ $product->quantity }}" min="0">
                     </div>
+                    @else
+                    <div class="form-group">
+                        <label>Old Quantity:</label>
+                        <input type="number" name="old_quantity" class="form-control" required
+                            value="{{ $product->quantity }}" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label>New Quantity:</label>
+                        <input type="number" name="quantity" class="form-control" required
+                            value="1" min="1">
+                    </div>
+                    @endif
                     <div class="form-group">
                         <label>Price:</label>
                         <input type="number" id="price" name="price" class="form-control"

@@ -1,18 +1,10 @@
 @extends('layouts.app')
+@section('title', 'Order Management')
+
 
 @section('content')
     <div class="container">
         <h2>Order Management</h2>
-        // address saving
-        // seperate form for filter
-        // order status update with quantity update
-        // highlight which product is out of stock or over sale
-        // review order : delete review and add review
-        // Z6 Problem 
-        // Z function discussion
-
-        // password testing
-        
         <form action="{{ route('vendor.order.index') }}" method="GET" class="mb-4">
             <div class="form-row align-items-center">
                 <div class="col-md-2">
@@ -88,8 +80,14 @@
                             <a href="{{ route('vendor.order.detail', ['id' => $order->id]) }}"
                                 class="btn btn-primary btn-sm">Detail</a>&nbsp;
                             @if ($order->status == 'Pending' || $order->status == 'On Hold' && $order->status != 'Completed' && $order->status != 'Canceled')
+                            @if ($order->status == 'Pending')
                             <a href="{{ route('vendor.order.action', ['id' => $order->id, 'action' => 'hold']) }}" class="btn btn-warning btn-sm" onclick="alert('Do you want to hold this order?')"> Hold</a>&nbsp;
                             <a href="{{ route('vendor.order.action', ['id' => $order->id, 'action' => 'done']) }}" class="btn btn-success btn-sm" onclick="alert('Do you want to ship this order?')"> Deliver</a>&nbsp;
+                            @endif
+                            @if ($order->status == 'On Hold')
+                            <a href="{{ route('vendor.order.action', ['id' => $order->id, 'action' => 'unhold']) }}" class="btn btn-warning btn-sm" onclick="alert('Do you want to unhold this order?')">Unhold</a>&nbsp;
+                            @endif
+
                             <a href="{{ route('vendor.order.action', ['id' => $order->id, 'action' => 'cancel']) }}" class="btn btn-danger btn-sm" onclick="alert('Do you want to cancel this order?')"> Cancel</a>
                             @endif
                             

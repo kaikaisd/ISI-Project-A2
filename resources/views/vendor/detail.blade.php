@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title', 'Order Details')
 @php
     $color = '';
     if ($order->status == 'Pending') {
@@ -89,9 +90,14 @@
                     <div class="d-flex justify-content-center ">
                         <button type="button" class="btn btn-lg btn-danger mr-4" onclick="cancelOrder()">Cancel
                             Order</button>&nbsp;
+                        @if ($order->status === 'Pending')
                         <button type="button" class="btn btn-lg btn-warning mr-4" onclick="holdOrder()">Hold
                             Order</button>&nbsp;
                         <button type="button" class="btn btn-lg btn-primary" onclick="shipOrder()">Ship Order</button>
+                        @else
+                        <button type="button" class="btn btn-lg btn-warning mr-4" onclick="unholdOrder()">Unhold
+                            Order</button>
+                        @endif
                     </div>
                 </div>
             @endif
@@ -110,6 +116,11 @@
     function holdOrder() {
         if (confirm('Are you sure you want to put this order on hold?')) {
             window.location.href = "{{ route('vendor.order.action', ['id' => $order->id, 'action' => 'hold']) }}";
+        }
+    }
+    function unholdOrder() {
+        if (confirm('Are you sure you want to put this order unhold?')) {
+            window.location.href = "{{ route('vendor.order.action', ['id' => $order->id, 'action' => 'unhold']) }}";
         }
     }
 

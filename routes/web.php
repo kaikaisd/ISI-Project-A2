@@ -29,7 +29,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', function (){
-    if (auth()->user()->role == 2)
+    if (auth()->check() && auth()->user()->role == 2)
         return redirect('vendor');
     return redirect('index');
 })->name('home');

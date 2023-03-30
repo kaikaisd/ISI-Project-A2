@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title', 'Vendor Dashboard')
 
 @section('content')
     <div class="container">
@@ -19,6 +20,9 @@
                 </form>
             </div>
             <div class="col-md-6">
+                <div class=""><canvas id="smchart" width="400" height="200"></canvas></div>
+            </div>
+            <div class="col-md-12">
                 <h4>Order Summary:</h4>
                 <ul>
                     <li><a href="{{ route('vendor.order.index', ['status' => '1']) }}">New Orders:
@@ -73,5 +77,7 @@
             },
         }
     });
+    var stx = document.getElementById('smchart').getContext('2d');
+    
 </script>
 @endsection

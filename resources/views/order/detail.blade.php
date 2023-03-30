@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title', 'Order Details')
 @php
 $color = '';
 if($order->status == 'Pending') {
@@ -63,7 +64,7 @@ if($order->status == 'Pending') {
                     </thead>
                     <tbody>
                         @foreach ($order->orderProduct as $item)
-                            <tr>
+                            <tr  style="{{ $item->product->quantity < 0 ? 'background-color: yellow; ': ''}}">
                                 <td>{{ $item->product->id }}</td>
                                 <td>{{ $item->product->name }}</td>
                                 <td>{{ $item->quantity }}</td>

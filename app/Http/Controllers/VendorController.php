@@ -160,19 +160,25 @@ class VendorController extends Controller
                 $order->status = 2;
                 $order->updater = 1;
                 $order->save();
-                return redirect()->route('vendor.order.index', 302)->with(['success' => 'Order held successfully']);
+                return redirect()->back()->with(['success' => 'Order held successfully']);
+            }
+            if ($request->route('action') == 'unhold') {
+                $order->status = 1;
+                $order->updater = 1;
+                $order->save();
+                return redirect()->back()->with(['success' => 'Order unheld successfully']);
             }
             if ($request->route('action') == 'done') {
                 $order->status = 3;
                 $order->updater = 1;
                 $order->save();
-                return redirect()->route('vendor.order.index', 302)->with(['success' => 'Order shipped successfully']);
+                return redirect()->back()->with(['success' => 'Order shipped successfully']);
             }
             if ($request->route('action') == 'cancel') {
                 $order->status = -1;
                 $order->updater = 1;
                 $order->save();
-                return redirect()->route('vendor.order.index', 302)->with(['success' => 'Order canceled successfully']);
+                return redirect()->back()->with(['success' => 'Order canceled successfully']);
             }
         }
         return redirect()->route('vendor.order.index');
@@ -216,7 +222,13 @@ class VendorController extends Controller
             $product->find($request->route('id'))->delete();
             return redirect()->route('vendor.product.index', 302)->with(['success' => 'Product deleted successfully']);
         }
-
+        if ( !($request->quantity > 0) or !($product->find($request->route('id'))->quantity < $request->quantity)) {
+            return redirect()->route('vendor.product.action', ['id' => $request->route('id')])->with(['warning' => 'New quantity must be greater than 0']);
+        }
+        if ($product->find($request->route('id'))->quantity < 0 && $request->quantity > 0){
+            //dd("here");
+            $request->merge(['quantity' => ($request->quantity + $product->find($request->route('id'))->quantity)]);
+        }
         //dd($request->all());
         $request->validate([
             'name' => 'required',
@@ -231,8 +243,6 @@ class VendorController extends Controller
             'release_date' => 'required|date|before:tomorrow|after:1900-01-01',
             'pages' => 'required|numeric',
         ]);
-
-
 
         $product = $product->updateOrCreate(['id' => $request->id], $request->all());
         if ($request->id != 'new') {
@@ -253,7 +263,11 @@ class VendorController extends Controller
                 }
             }
             if ($request->continue_edit) {
+                if ($request->id == 'new'){
                 return redirect()->route('vendor.product.action', ['id' => $product->id, 'action' => 'edit'])->with(['success' => 'Add product successfully']);
+                } else{
+                    return redirect()->route('vendor.product.action', ['id' => $product->id, 'action' => 'edit'])->with(['success' => 'Product updated successfully']);
+                }
             }
         }
         return redirect()->route('vendor.product.index')->with(['success' => 'Product saved successfully']);
