@@ -95,6 +95,10 @@
         function onChangeQuantity(pid) {
             let uid = {{ auth()->user()->id }};
             let quantity = document.getElementById('quantity[' + pid + ']').value;
+            if (isNaN(quantity) || quantity < 1) {
+                alert('Quantity must be a number and greater than 0.');
+                location.reload();
+            }
             var url = "{{ route('cart.update') }}";
             $.ajax({
                 url: url,

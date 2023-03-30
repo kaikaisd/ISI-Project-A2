@@ -12,14 +12,14 @@ use Illuminate\Support\Facades\Validator;
 class RegisterController extends Controller
 {
     /*
-    |--------------------------------------------------------------------------
-    | Register Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles the registration of new users as well as their
-    | validation and creation. By default this controller uses a trait to
-    | provide this functionality without requiring any additional code.
-    |
+    ,--------------------------------------------------------------------------
+    , Register Controller
+    ,--------------------------------------------------------------------------
+    ,
+    , This controller handles the registration of new users as well as their
+    , validation and creation. By default this controller uses a trait to
+    , provide this functionality without requiring any additional code.
+    ,
     */
 
     use RegistersUsers;
@@ -53,7 +53,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:6', 'regex:/[A-Z]/', 'regex:/[0-9]/' , 'confirmed'],
+            'password' => ['required', 'string', 'min:6', 'regex:/[A-Z]/', 'regex:/[0-9]/', 'confirmed'],
             'address1' => ['required'],
             'address2' => ['required'],
             'city' => ['required'],
@@ -75,7 +75,7 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'address' => $data['address1'] . "|" . $data['address2'] . "|" . $data['city'] . "|" . $data['state'] . "|" . $data['zip'],
+            'address' => $data['address1'] . "," . $data['address2'] . "," . $data['city'] . "," . $data['state'] . "," . $data['zip'],
         ]);
     }
 }

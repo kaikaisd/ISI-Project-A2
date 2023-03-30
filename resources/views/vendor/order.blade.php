@@ -3,9 +3,16 @@
 @section('content')
     <div class="container">
         <h2>Order Management</h2>
+        // address saving
         // seperate form for filter
         // order status update with quantity update
         // highlight which product is out of stock or over sale
+        // review order : delete review and add review
+        // Z6 Problem 
+        // Z function discussion
+
+        // password testing
+        
         <form action="{{ route('vendor.order.index') }}" method="GET" class="mb-4">
             <div class="form-row align-items-center">
                 <div class="col-md-2">

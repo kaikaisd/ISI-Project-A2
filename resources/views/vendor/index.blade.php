@@ -6,6 +6,7 @@
 
         <div class="row">
             <div class="col-md-6">
+                <h4>Top 5 Products:</h4>
                 <div class=""><canvas id="schart" width="400" height="200"></canvas></div>
                 <!-- date range picker -->
                 <form method="GET">

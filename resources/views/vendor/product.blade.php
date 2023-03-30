@@ -88,7 +88,7 @@
             @endforeach
         @endif
     </div>
-
+    
     <div class="d-flex">
         <div class="mx-auto">
             {{ $products->appends(request()->query())->links() }}
