@@ -56,7 +56,7 @@ class VendorController extends Controller
         if (!auth()->check()) {
             return redirect()->route('login');
         }
-        $orders = Order::query()->orderByDesc('created_at');
+        $orders = Order::query();
         if ($request->id && $request->id != '') {
             $orders = $orders->where('id', $request->id);
         }
@@ -69,12 +69,10 @@ class VendorController extends Controller
         if ($request->status && $request->status != '') {
             $orders = $orders->where('status', $request->status);
         }
-        if ($request->active && $request->active != ''){
-            if ($request->active == 1){
-                $orders = $orders->whereIn('status', [1,2]);
-            } else {
-                $orders = $orders->whereNotIn('status', [1,2]);
-            }
+        if ($request->sort && $request->sort != '' && $request->order && $request->order != '' && in_array($request->sort,['id','price','created_at', 'updated_at','status']) ) {
+            $orders = $orders->orderBy($request->sort, $request->order);
+        }else{
+            $orders = $orders->orderBy('created_at', 'desc');
         }
         $orders = $orders->paginate(10);
         $orders->map(function ($order) {
