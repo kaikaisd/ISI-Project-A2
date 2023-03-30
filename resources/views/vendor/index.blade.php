@@ -22,6 +22,8 @@
                     <input type="date" name="end_date" value="{{ request('end_date') }}">&nbsp;
                     <button type="submit" class="btn btn-primary">Filter</button>
                 </form>
+                &nbsp;
+                <a href="{{ route('vendor.index') }}" class="btn btn-primary ml-2">Reset</a>
             </div>
             <br/>
             <div class="col-md-12">

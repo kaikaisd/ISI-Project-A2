@@ -9,6 +9,7 @@
             &nbsp;
             <a href="{{ route('vendor.cad.index') }}" class="btn btn-primary ml-2">Manage Categories & Brands</a>
         </div>
+        <br/>
         <div class="row">
             <div class="col-md-6">
                 <form action="{{ route('vendor.product.index') }}" method="GET">
