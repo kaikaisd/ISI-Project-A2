@@ -6,12 +6,13 @@
         <h2>Vendor Dashboard</h2>
 
         <div class="row">
+            <h4>Top 5 Products:</h4>
+
             <div class="col-md-6">
-                <h4>Top 5 Products:</h4>
                 <div class=""><canvas id="schart" width="400" height="250"></canvas></div>
             </div>
             <div class="col-md-6">
-                <div class=""><canvas id="smchart" width="400" height="200"></canvas></div>
+                <div class=""><canvas id="smchart" width="400" height="250"></canvas></div>
             </div>
             <div class="col-md-12 d-flex justify-content-center ">
                 <form method="GET" class="">
