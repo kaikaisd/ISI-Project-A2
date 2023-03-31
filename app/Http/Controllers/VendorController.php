@@ -289,12 +289,12 @@ class VendorController extends Controller
                     }
                 }
             }
-            if ($request->continue_edit) {
-                if ($request->id == 'new'){
-                return redirect()->route('vendor.product.action', ['id' => $product->id, 'action' => 'edit'])->with(['success' => 'Add product successfully']);
-                } else{
-                    return redirect()->route('vendor.product.action', ['id' => $product->id, 'action' => 'edit'])->with(['success' => 'Product updated successfully']);
-                }
+        }
+        if ($request->continue_edit) {
+            if ($request->id == 'new'){
+            return redirect()->route('vendor.product.action', ['id' => $product->id, 'action' => 'edit'])->with(['success' => 'Add product successfully']);
+            } else{
+                return redirect()->route('vendor.product.action', ['id' => $product->id, 'action' => 'edit'])->with(['success' => 'Product updated successfully']);
             }
         }
         return redirect()->route('vendor.product.index')->with(['success' => 'Product saved successfully']);
