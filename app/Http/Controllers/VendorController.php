@@ -21,6 +21,9 @@ class VendorController extends Controller
         if (!auth()->check()) {
             return redirect()->route('login');
         }
+        if (auth()->user()->role != 2){
+            return redirect()->route('home');
+        }
         $orders = Order::query()->limit(3)->orderByDesc('created_at')->get()->map(function ($order) {
             $order->status = Order::statusFormat($order->status);
             return $order;
@@ -53,8 +56,11 @@ class VendorController extends Controller
 
     public function orderList(Request $request)
     {
-        if (!auth()->check() || auth()->user()->role != 2) {
+        if (!auth()->check()) {
             return redirect()->route('login');
+        }
+        if (auth()->user()->role != 2){
+            return redirect()->route('home');
         }
         $orders = Order::query();
         if ($request->id && $request->id != '') {
@@ -87,6 +93,9 @@ class VendorController extends Controller
         if (!auth()->check()) {
             return redirect()->route('login');
         }
+        if (auth()->user()->role != 2){
+            return redirect()->route('home');
+        }
         if ($request->route('id')) {
             if ($request->route('id') == 'new') {
                 $order = new Order();
@@ -103,6 +112,9 @@ class VendorController extends Controller
     {
         if (!auth()->check()) {
             return redirect()->route('login');
+        }
+        if (auth()->user()->role != 2){
+            return redirect()->route('home');
         }
         $query = Product::query();
         $brands = Brand::all();
@@ -138,6 +150,9 @@ class VendorController extends Controller
         if (!auth()->check()) {
             return redirect()->route('login');
         }
+        if (auth()->user()->role != 2){
+            return redirect()->route('home');
+        }
         if ($request->route('id')) {
             if ($request->route('id') == 'new') {
                 $product = new Product();
@@ -154,6 +169,9 @@ class VendorController extends Controller
     {
         if (!auth()->check()) {
             return redirect()->route('login');
+        }
+        if (auth()->user()->role != 2){
+            return redirect()->route('home');
         }
         if ($request->route('id')) {
             $order = $order->findOrFail($request->route('id'));
@@ -191,6 +209,9 @@ class VendorController extends Controller
         if (!auth()->check()) {
             return redirect()->route('login');
         }
+        if (auth()->user()->role != 2){
+            return redirect()->route('home');
+        }
         if ($request->route('action') == 'delete') {
             $order->find($request->route('id'))->delete();
             return redirect()->route('vendor.order.index', 302)->with(['success' => 'Order deleted successfully']);
@@ -212,6 +233,9 @@ class VendorController extends Controller
     {
         if (!auth()->check()) {
             return redirect()->route('login');
+        }
+        if (auth()->user()->role != 2){
+            return redirect()->route('home');
         }
         if ($request->route('action') == 'deleteImage') {
             $path = $picture->find($request->route('pid'));
