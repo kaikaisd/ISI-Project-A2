@@ -53,7 +53,7 @@ class VendorController extends Controller
 
     public function orderList(Request $request)
     {
-        if (!auth()->check()) {
+        if (!auth()->check() || auth()->user()->role != 2) {
             return redirect()->route('login');
         }
         $orders = Order::query();
