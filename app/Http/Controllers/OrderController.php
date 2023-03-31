@@ -69,7 +69,7 @@ class OrderController extends Controller
                 $_GLOBAL['flag'] = 1;
             }
             if ($item->product->isPromotion == 1){
-                $totalPrice += ($item->product->promotion_price * $item->quantity);
+                $totalPrice += ($item->product->promoPrice * $item->quantity);
             }else{
                 $totalPrice += ($item->product->price * $item->quantity);
             }
