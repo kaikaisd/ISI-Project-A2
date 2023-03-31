@@ -85,8 +85,10 @@
     <script>
         function confirmCancel($id) {
             if (confirm('Are you sure you want to cancel this order?')) {
+                let url = {{ route('order.cancel', ':id') }} ;
+                url = url.replace(':id', $id);
                 $.ajax({
-                    url: "{{ route('order.cancel', $id) }}",
+                    url: url,
                     type: 'POST',
                     data: {
                         _token: "{{ csrf_token() }}"
