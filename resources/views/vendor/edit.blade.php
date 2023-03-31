@@ -63,7 +63,7 @@
                     <div class="form-group">
                         <label>New Quantity:</label>
                         <input type="number" name="quantity" class="form-control" required
-                            value="1" min="1">
+                            value="{{ $product->quantity > 0 ? $product->quantity : 1}}" min="1">
                     </div>
                     @endif
                     <div class="form-group">
