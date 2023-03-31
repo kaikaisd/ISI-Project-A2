@@ -119,16 +119,21 @@ class VendorController extends Controller
         $query = Product::query();
         $brands = Brand::all();
         if ($request->has('search')) {
-            $query->where('name', 'like', '%' . $request->input('search') . '%')->orWhere('id', 'like', '%' . $request->input('search') . '%');
+            if ($request->input('search') == '') {
+                $query->where('id', '>', 0);
+            }else{
+                $query->where('name', 'like', '%' . $request->input('search') . '%')->orWhere('id', 'like', '%' . $request->input('search') . '%');
+            }
+            
         }
 
         $selectedBrand = $request->input('brand', 'all');
         // Apply brand filter if selected
         if ($request->has('brand')) {
-            if ($selectedBrand === 'all') {
+            if ($selectedBrand == 'all') {
                 $query->where('brand_id', '>', 0);
             } else {
-                $query->where('brand_id', '=', $selectedBrand);
+                $query->where('brand_id', $selectedBrand);
             }
         }
 
