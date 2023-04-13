@@ -1,34 +1,35 @@
 @extends('layouts.app')
 @section('title', 'Order Details')
 @php
-$color = '';
-if($order->status == 'Pending') {
-    $color  = 'text-success';
-} elseif($order->status == 'On Hold') {
-    $color  = 'text-warning';
-} elseif($order->status == 'Completed') {
-    $color  = 'text-primary';
-}
+    $color = '';
+    if ($order->status == 'Pending') {
+        $color = 'text-success';
+    } elseif ($order->status == 'On Hold') {
+        $color = 'text-warning';
+    } elseif ($order->status == 'Completed') {
+        $color = 'text-primary';
+    }
 @endphp
 @section('content')
     <div class="container">
         <h2>Order Form</h2>
         <div class="">
             @if ($order->status == 'Delivered')
-                <a href="{{ route('order.review', ['id' => $order->id]) }}" class="text-start btn btn-primary">Review Order</a>
+                <a href="{{ route('order.review', ['id' => $order->id]) }}" class="text-start btn btn-primary">Review
+                    Order</a>
             @endif
             <h3 class="text-end">Order ID: {{ $order->id }}</h3>
             <h3 class="text-end">Order Status: <span class="{{ $color }}">{{ $order->status }}</span>
-            <h3 class="text-end">Order created at: {{ $order->created_at }}</h3>
-            <h3 class="text-end">Last Updated: {{ $order->updated_at }}</span>
-            @if ($order->status == 'Cancelled')
-            <h3 class="text-end">Action by: {{ $order->updater == 0 ? 'User' : 'Vendor' }}</h3>
-            @endif
+                <h3 class="text-end">Order created at: {{ $order->created_at }}</h3>
+                <h3 class="text-end">Last Updated: {{ $order->updated_at }}</span>
+                    @if ($order->status == 'Cancelled')
+                        <h3 class="text-end">Action by: {{ $order->updater == 0 ? 'User' : 'Vendor' }}</h3>
+                    @endif
         </div>
         </h3>
         <div class="row mt-4">
             <div class="col-md-6">
-               
+
                 <h4>User Details:</h4>
 
                 <table class="table">
@@ -64,7 +65,7 @@ if($order->status == 'Pending') {
                     </thead>
                     <tbody>
                         @foreach ($order->orderProduct as $item)
-                            <tr  style="{{ $item->product->quantity < 0 ? 'background-color: yellow; ': ''}}">
+                            <tr style="{{ $item->product->quantity < 0 ? 'background-color: yellow; ' : '' }}">
                                 <td>{{ $item->product->id }}</td>
                                 <td>{{ $item->product->name }}</td>
                                 <td>{{ $item->quantity }}</td>
@@ -80,7 +81,7 @@ if($order->status == 'Pending') {
                                     $sum += $item->quantity * $item->price;
                                 }
                             @endphp
-                            <td><strong>${{ $sum }}</strong></td>
+                            <td><strong>${{ $sum }}</strong></d>
                         </tr>
                     </tbody>
                 </table>
@@ -88,10 +89,26 @@ if($order->status == 'Pending') {
         </div>
         <div class="row">
             <div class="col-md-12">
-                <br/><br/>
+                <br /><br />
             </div>
         </div>
-        
+        @if ($order->status == 'Pending')
+            <div class="fixed-bottom mb-4">
+                <div class="d-flex justify-content-center ">
+                    <button type="button" class="btn btn-lg btn-danger mr-4" onclick="cancelOrder()">Cancel
+                        Order</button>
+                </div>
+            </div>
+        @endif
     </div>
 
+@endsection
+@section('scripts')
+    <script>
+        function cancelOrder() {
+            if (confirm('Are you sure you want to cancel this order?')) {
+                window.location.href = "{{ route('vendor.order.action', ['id' => $order->id, 'action' => 'cancel']) }}";
+            }
+        }
+    </script>
 @endsection

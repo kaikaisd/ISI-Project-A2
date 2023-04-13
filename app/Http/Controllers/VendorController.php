@@ -133,6 +133,7 @@ class VendorController extends Controller
             if ($selectedBrand == 'all') {
                 $query->where('brand_id', '>', 0);
             } else {
+                
                 $query->where('brand_id', $selectedBrand);
             }
         }
@@ -180,25 +181,40 @@ class VendorController extends Controller
         }
         if ($request->route('id')) {
             $order = $order->findOrFail($request->route('id'));
+            if ($order->status == 3 || $order->status == -1) {
+                return redirect()->back()->with(['warning' => 'Order already completed or cenceled']);
+            }
             if ($request->route('action') == 'hold') {
+                if ($order->status == 2) {
+                    return redirect()->back()->with(['error' => 'Order already held']);
+                }
                 $order->status = 2;
                 $order->updater = 1;
                 $order->save();
                 return redirect()->back()->with(['success' => 'Order held successfully']);
             }
             if ($request->route('action') == 'unhold') {
+                if ($order->status == 1) {
+                    return redirect()->back()->with(['warning' => 'Order already unheld']);
+                }
                 $order->status = 1;
                 $order->updater = 1;
                 $order->save();
                 return redirect()->back()->with(['success' => 'Order unheld successfully']);
             }
             if ($request->route('action') == 'done') {
+                if ($order->status == 3) {
+                    return redirect()->back()->with(['warning' => 'Order already shipped']);
+                }
                 $order->status = 3;
                 $order->updater = 1;
                 $order->save();
                 return redirect()->back()->with(['success' => 'Order shipped successfully']);
             }
             if ($request->route('action') == 'cancel') {
+                if ($order->status == -1) {
+                    return redirect()->back()->with(['warning' => 'Order already canceled']);
+                }
                 $order->status = -1;
                 $order->updater = 1;
                 $order->save();
