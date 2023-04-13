@@ -92,7 +92,7 @@
                 <br /><br />
             </div>
         </div>
-        @if ($order->status == 'Pending')
+        @if ($order->status == 'Pending' || $order->status == 'On Hold')
             <div class="fixed-bottom mb-4">
                 <div class="d-flex justify-content-center ">
                     <button type="button" class="btn btn-lg btn-danger mr-4" onclick="cancelOrder()">Cancel
@@ -107,7 +107,7 @@
     <script>
         function cancelOrder() {
             if (confirm('Are you sure you want to cancel this order?')) {
-                window.location.href = "{{ route('vendor.order.action', ['id' => $order->id, 'action' => 'cancel']) }}";
+                window.location.href = "{{ route('order.cancel', ['id' => $order->id]) }}";
             }
         }
     </script>
