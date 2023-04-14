@@ -181,7 +181,7 @@ class OrderController extends Controller
             return redirect()->route('order.review', $request->order_id)->with('error', 'You are not allowed to review this product');
         }
         foreach($request->product_id as $value){
-            $comment = (Comment::where('product_id',$value) ?? new Comment());
+            $comment = (Comment::whereOrFail('product_id',$value) ?? new Comment());
             $comment->user_id = auth()->user()->id;
             $comment->order_id = $request->order_id;
             $comment->product_id = $value;
