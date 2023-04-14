@@ -129,10 +129,13 @@ class OrderController extends Controller
             return redirect()->route('index');
         }
         $order = Order::find($request->route('id'));
+        if (auth()->user()->id != $order->user_id){
+            return redirect()->back()->with('error', 'You are not allowed to cancel this order');
+        }
         $order->status = -1;
         $order->updater = 0;
         $order->save();
-        return redirect()->route('order.index')->with('success', 'Order has been cancelled successfully');
+        return redirect()->back()->with('success', 'Order has been cancelled successfully');
     }
 
     public function detail(Request $request, Order $order){

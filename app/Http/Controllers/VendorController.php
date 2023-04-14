@@ -182,7 +182,7 @@ class VendorController extends Controller
         if ($request->route('id')) {
             $order = $order->findOrFail($request->route('id'));
             if ($order->status == 3 || $order->status == -1) {
-                return redirect()->back()->with(['warning' => 'Order already completed or cenceled']);
+                return redirect()->back()->with(['warning' => 'Order already completed or canceled']);
             }
             if ($request->route('action') == 'hold') {
                 if ($order->status == 2) {

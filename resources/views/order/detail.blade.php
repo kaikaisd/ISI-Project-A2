@@ -107,7 +107,16 @@
     <script>
         function cancelOrder() {
             if (confirm('Are you sure you want to cancel this order?')) {
-                window.location.href = "{{ route('order.cancel', ['id' => $order->id]) }}";
+                $.ajax({
+                    url: "{{ route('order.cancel', ['id' => $order->id]) }}",
+                    type: 'POST',
+                    data: {
+                        _token: "{{ csrf_token() }}"
+                    },
+                    success: function(data) {
+                        window.location.href = "{{ $order->id }}";
+                    }
+                });
             }
         }
     </script>
