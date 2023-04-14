@@ -269,7 +269,11 @@ class VendorController extends Controller
             return redirect()->route('vendor.product.index', 302)->with(['success' => 'Product deleted successfully']);
         }
         if ($request->id != 'new') {
-            if ($product->find($request->route('id'))->quantity < 0 && $request->quantity > 0) {
+            // if (!($request->quantity > 0) || (!($product->find($request->route('id'))->quantity <= $request->quantity))) {
+            //     return redirect()->route('vendor.product.action', ['id' => $request->route('id')])->with(['warning' => 'New quantity must be greater than 0']);
+            // }
+            if ($product->find($request->route('id'))->quantity < 0 && $request->quantity >= 1) {
+                //dd("here");
                 $request->merge(['quantity' => ($request->quantity + $product->find($request->route('id'))->quantity)]);
             }
         }
