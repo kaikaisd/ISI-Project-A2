@@ -21,7 +21,7 @@ class VendorController extends Controller
         if (!auth()->check()) {
             return redirect()->route('login');
         }
-        if (auth()->user()->role != 2){
+        if (auth()->user()->role != 2) {
             return redirect()->route('home');
         }
         $orders = Order::query()->limit(3)->orderByDesc('created_at')->get()->map(function ($order) {
@@ -59,7 +59,7 @@ class VendorController extends Controller
         if (!auth()->check()) {
             return redirect()->route('login');
         }
-        if (auth()->user()->role != 2){
+        if (auth()->user()->role != 2) {
             return redirect()->route('home');
         }
         $orders = Order::query();
@@ -75,9 +75,9 @@ class VendorController extends Controller
         if ($request->status && $request->status != '') {
             $orders = $orders->where('status', $request->status);
         }
-        if ($request->sort && $request->sort != '' && $request->order && $request->order != '' && in_array($request->sort,['id','price','created_at', 'updated_at','status']) ) {
+        if ($request->sort && $request->sort != '' && $request->order && $request->order != '' && in_array($request->sort, ['id', 'price', 'created_at', 'updated_at', 'status'])) {
             $orders = $orders->orderBy($request->sort, $request->order);
-        }else{
+        } else {
             $orders = $orders->orderBy('created_at', 'desc');
         }
         $orders = $orders->paginate(10);
@@ -93,7 +93,7 @@ class VendorController extends Controller
         if (!auth()->check()) {
             return redirect()->route('login');
         }
-        if (auth()->user()->role != 2){
+        if (auth()->user()->role != 2) {
             return redirect()->route('home');
         }
         if ($request->route('id')) {
@@ -113,7 +113,7 @@ class VendorController extends Controller
         if (!auth()->check()) {
             return redirect()->route('login');
         }
-        if (auth()->user()->role != 2){
+        if (auth()->user()->role != 2) {
             return redirect()->route('home');
         }
         $query = Product::query();
@@ -121,10 +121,9 @@ class VendorController extends Controller
         if ($request->has('search')) {
             if ($request->input('search') == '') {
                 $query->where('id', '>', 0);
-            }else{
+            } else {
                 $query->where('name', 'like', '%' . $request->input('search') . '%')->orWhere('id', 'like', '%' . $request->input('search') . '%');
             }
-            
         }
 
         $selectedBrand = $request->input('brand', 'all');
@@ -133,7 +132,7 @@ class VendorController extends Controller
             if ($selectedBrand == 'all') {
                 $query->where('brand_id', '>', 0);
             } else {
-                
+
                 $query->where('brand_id', $selectedBrand);
             }
         }
@@ -156,7 +155,7 @@ class VendorController extends Controller
         if (!auth()->check()) {
             return redirect()->route('login');
         }
-        if (auth()->user()->role != 2){
+        if (auth()->user()->role != 2) {
             return redirect()->route('home');
         }
         if ($request->route('id')) {
@@ -176,7 +175,7 @@ class VendorController extends Controller
         if (!auth()->check()) {
             return redirect()->route('login');
         }
-        if (auth()->user()->role != 2){
+        if (auth()->user()->role != 2) {
             return redirect()->route('home');
         }
         if ($request->route('id')) {
@@ -230,7 +229,7 @@ class VendorController extends Controller
         if (!auth()->check()) {
             return redirect()->route('login');
         }
-        if (auth()->user()->role != 2){
+        if (auth()->user()->role != 2) {
             return redirect()->route('home');
         }
         if ($request->route('action') == 'delete') {
@@ -255,7 +254,7 @@ class VendorController extends Controller
         if (!auth()->check()) {
             return redirect()->route('login');
         }
-        if (auth()->user()->role != 2){
+        if (auth()->user()->role != 2) {
             return redirect()->route('home');
         }
         if ($request->route('action') == 'deleteImage') {
@@ -272,14 +271,8 @@ class VendorController extends Controller
             // if (!($request->quantity > 0) || (!($product->find($request->route('id'))->quantity <= $request->quantity))) {
             //     return redirect()->route('vendor.product.action', ['id' => $request->route('id')])->with(['warning' => 'New quantity must be greater than 0']);
             // }
-            if ($request->quantity != 0 ){
-                if ($product->find($request->route('id'))->quantity < 0 && $request->quantity >= 1) {
-                    $request->merge(['quantity' => ($request->quantity + $product->find($request->route('id'))->quantity)]);
-                }
-            }else{
-                $request->merge(['quantity' => $product->find($request->route('id'))->quantity]);
-            }
-            
+
+            $request->merge(['quantity' => ($request->quantity + $product->find($request->route('id'))->quantity)]);
         }
         //dd($request->all());
         $request->validate([
@@ -316,9 +309,9 @@ class VendorController extends Controller
             }
         }
         if ($request->continue_edit) {
-            if ($request->id == 'new'){
-            return redirect()->route('vendor.product.action', ['id' => $product->id, 'action' => 'edit'])->with(['success' => 'Add product successfully']);
-            } else{
+            if ($request->id == 'new') {
+                return redirect()->route('vendor.product.action', ['id' => $product->id, 'action' => 'edit'])->with(['success' => 'Add product successfully']);
+            } else {
                 return redirect()->route('vendor.product.action', ['id' => $product->id, 'action' => 'edit'])->with(['success' => 'Product updated successfully']);
             }
         }
