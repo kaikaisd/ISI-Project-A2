@@ -276,6 +276,8 @@ class VendorController extends Controller
                 if ($product->find($request->route('id'))->quantity < 0 && $request->quantity >= 1) {
                     $request->merge(['quantity' => ($request->quantity + $product->find($request->route('id'))->quantity)]);
                 }
+            }else{
+                $request->merge(['quantity' => $product->find($request->route('id'))->quantity]);
             }
             
         }
