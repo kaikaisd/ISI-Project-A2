@@ -56,7 +56,7 @@
                     </div>
                     @else
                     <div class="form-group">
-                        <label>Old Quantity:</label>
+                        <label>Current Quantity:</label>
                         <input type="number" name="old_quantity" class="form-control" required
                             value="{{ $product->quantity }}" disabled>
                     </div>
