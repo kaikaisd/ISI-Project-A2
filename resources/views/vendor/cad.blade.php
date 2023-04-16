@@ -3,6 +3,19 @@
 @section('content')
     <div class="container">
         <div class="row">
+            <div class="col-md-12">
+                <h2>Categories and Brands</h2>
+                <hr />
+            </div>
+            <div class="col-md-12">
+                <a href="{{ URL::previous() }}" class="btn btn-primary">Back</a>
+                &nbsp;
+                <a href="{{ route('vendor.product.action', ['id' => 'new']) }}" class="btn btn-primary">Add Product</a>
+                &nbsp;
+                <a href="{{ route('vendor.product.index') }}" class="btn btn-primary">Product Management</a>
+                &nbsp;
+                <br/><br/>
+            </div>
             <div class="col-md-6">
                 <h1>Categories</h1>
                 <table class="table">

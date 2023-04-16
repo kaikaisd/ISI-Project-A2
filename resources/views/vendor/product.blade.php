@@ -8,6 +8,8 @@
             <a href="{{ route('vendor.product.action', ['id' => 'new']) }}" class="btn btn-primary">Add Product</a>
             &nbsp;
             <a href="{{ route('vendor.cad.index') }}" class="btn btn-primary ml-2">Manage Categories & Brands</a>
+            &nbsp;
+            <a href="{{ route('vendor.product.index') }}" class="btn btn-secondary ml-2">Reset Filter</a>
         </div>
         <br/>
         <div class="row">

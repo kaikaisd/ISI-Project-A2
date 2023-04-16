@@ -94,13 +94,15 @@
 
                 <form action="{{ route('cart.add', ['id' => $product->id]) }}" method="POST" class="mt-4">
                     @csrf
-
+                    @if (auth()->user()->role != 2)
                     <div class="form-group">
                         <label for="quantity">Quantity:</label>
                         <input type="number" name="quantity" id="quantity" class="form-control" value="1"
                             min="1">
                     </div>
+                    
                     <br />
+                    @endif
                     @if (auth()->check())
                         @if ($product->isOnSale == 1)
                             @if (auth()->user()->role == 2)
