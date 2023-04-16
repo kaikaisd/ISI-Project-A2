@@ -38,6 +38,7 @@
                     </div>
                 </div>
                 <div class="col-12">
+                    <br/>
                     <button type="submit" class="btn btn-primary btn-block">Filter Orders</button>
                     &nbsp;
                     <a href="{{ route('vendor.order.index') }}" class="btn btn-secondary btn-block">Reset</a>

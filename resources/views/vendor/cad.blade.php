@@ -29,12 +29,12 @@
                             <td colspan="3">
                                 <form action="{{ route('vendor.cad.category.add') }}" method="POST">
                                     @csrf
-                                    <div class="form-row">
+                                    <div class="row g-3">
                                         <div class="col">
                                             <input type="text" class="form-control" name="categoryName"
                                                 placeholder="Category Name">
                                         </div>
-                                        <div class="col-auto">
+                                        <div class="col-3">
                                             <button type="submit" class="btn btn-primary">Add Category</button>
                                         </div>
                                     </div>
@@ -70,7 +70,7 @@
                             <td colspan="3">
                                 <form action="{{ route('vendor.cad.brand.add') }}" method="POST">
                                     @csrf
-                                    <div class="form-row">
+                                    <div class="row g-2">
                                         <div class="col">
                                             <input type="text" class="form-control" name="brandName"
                                                 placeholder="Brand Name">

@@ -118,11 +118,18 @@ class VendorController extends Controller
         }
         $query = Product::query();
         $brands = Brand::all();
-        if ($request->has('search')) {
-            if ($request->input('search') == '') {
+        if ($request->has('searchID')) {
+            if ($request->input('searchID') == '') {
                 $query->where('id', '>', 0);
             } else {
-                $query->where('id', '=', $request->input('search'));
+                $query->where('id', '=', $request->input('searchID'));
+            }
+        }
+        if ($request->has('searchName')) {
+            if ($request->input('searchName') == '') {
+                $query->where('name', 'like', '%');
+            } else {
+                $query->where('name','like' , '%'.$request->input('searchName').'%');
             }
         }
 

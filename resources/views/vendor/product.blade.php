@@ -13,7 +13,9 @@
         <div class="row">
             <div class="col-md-6">
                 <form action="{{ route('vendor.product.index') }}" method="GET">
-                    <input hidden name="search" value="{{ request('search') ?? '' }}">
+                    <input hidden name="searchID" value="{{ request('searchID') ?? '' }}">
+                    <input hidden name="searchName" value="{{ request('searchName') ?? '' }}">
+
                     <div class="form-group">
                         <label for="brand">Filter by Brand:</label>
                         <select class="form-control" id="brand" name="brand">
@@ -48,8 +50,14 @@
                     <input hidden name="price" value="{{ request('price') ?? 'asc' }}">
                     <div class="form-group">
                         <label for="search">Search product by id:</label>
-                        <input type="text" id="search" name="search" class="form-control"
-                            placeholder="Search Product" value="{{ request('search') }}">
+                        <input type="text" id="searchID" name="searchID" class="form-control"
+                            placeholder="Search Product" value="{{ request('searchID') }}">
+                    </div>
+                    <br/>
+                    <div class="form-group">
+                        <label for="search">Search product by name:</label>
+                        <input type="text" id="searchName" name="searchName" class="form-control"
+                            placeholder="Search Product" value="{{ request('searchName') }}">
                     </div>
                     <br />
                     <div class="d-grid gap-2">
