@@ -122,7 +122,7 @@ class VendorController extends Controller
             if ($request->input('search') == '') {
                 $query->where('id', '>', 0);
             } else {
-                $query->where('name', 'like', '%' . $request->input('search') . '%')->orWhere('id', 'like', '%' . $request->input('search') . '%');
+                $query->where('id', '=', $request->input('search'));
             }
         }
 

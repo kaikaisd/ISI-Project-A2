@@ -47,7 +47,7 @@
                     <input hidden name="brand" value="{{ request('brand') ?? 'all' }}">
                     <input hidden name="price" value="{{ request('price') ?? 'asc' }}">
                     <div class="form-group">
-                        <label for="search">Search by name or id:</label>
+                        <label for="search">Search product by id:</label>
                         <input type="text" id="search" name="search" class="form-control"
                             placeholder="Search Product" value="{{ request('search') }}">
                     </div>
