@@ -13,6 +13,7 @@
 @section('content')
     <div class="container">
         <h2>Order Form</h2>
+        <a href="{{ route('vendor.order.index') }}" class="btn btn-secondary">Back</a>
         <h3 class="text-end">Order ID: {{ $order->id }}</h3>
         <h3 class="text-end">Order Status: <span class="{{ $color }}">{{ $order->status }}</span>
             <h3 class="text-end">Order created at: {{ $order->created_at }}</h3>

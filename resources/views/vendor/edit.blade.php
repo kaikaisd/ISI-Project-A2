@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <h2>Product Form</h2>
-
+        <a href="{{ route('vendor.product.index') }}" class="btn btn-secondary mb-4">Back</a>
         <form
             action="{{ route('vendor.product.action', ['id' => request('id') == 'new' ? 'new' : $product->id, 'action' => request('id') == 'new' ? 'create' : 'update']) }}"
             method="POST" enctype="multipart/form-data">
