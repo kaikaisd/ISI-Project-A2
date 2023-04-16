@@ -8,7 +8,7 @@
                 <hr />
             </div>
             <div class="col-md-12">
-                <a href="{{ URL::previous() }}" class="btn btn-primary">Back</a>
+                <a href="{{ URL::previous() }}" class="btn btn-secondary">Back</a>
                 &nbsp;
                 <a href="{{ route('vendor.product.action', ['id' => 'new']) }}" class="btn btn-primary">Add Product</a>
                 &nbsp;
