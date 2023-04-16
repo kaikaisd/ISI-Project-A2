@@ -116,6 +116,13 @@
                 <br/>
                 <h2>Reviews:</h2>
                 <ul class="list-group">
+                    @if (count($review) == 0)
+                    <li class="list-group-item">
+                        <div class="ms-2 me-auto">
+                            <div class="fw-bold">No Reviews</div>
+                        </div>
+                    </li>
+                    @endif
                     @foreach ($review as $review)
                         <li class="list-group-item">
                             <div class="ms-2 me-auto">
