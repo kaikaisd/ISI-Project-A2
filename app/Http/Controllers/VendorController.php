@@ -146,7 +146,7 @@ class VendorController extends Controller
                 $query->orderBy('price', 'desc');
             }
         }
-        $products = $query->paginate(10);
+        $products = $query->paginate(12);
         return view('vendor.product', compact('products', 'brands'));
     }
 
