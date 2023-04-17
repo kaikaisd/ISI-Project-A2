@@ -140,9 +140,11 @@ class OrderController extends Controller
 
     public function detail(Request $request, Order $order){
         $carts = Cart::itemCount();
-        // Get order detail and group by product id on order_product table
         $order = Order::with('orderProduct.product')->where('id',$request->route('id'))->get();
         $order = $order[0];
+        if (auth()->user()->id != $order->user_id){
+            return redirect()->back()->with('error', 'You are not allowed to view this order');
+        }
         $order->status = Order::statusFormat($order->status);
 
         return view('order.detail', compact('order', 'carts'));
