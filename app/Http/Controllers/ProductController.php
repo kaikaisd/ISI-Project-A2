@@ -59,7 +59,7 @@ class ProductController extends Controller
 
     public function details(Request $request){
         $carts = Cart::itemCount();
-        $review = Comment::where('product_id', $request->route('id'))->limit(3)->get();
+        $review = Comment::where('product_id', $request->route('id'))->orderByDesc()->limit(3)->get();
         $avgRating = Comment::where('product_id', $request->route('id'))->avg('rating');
         if ($avgRating == null) {
             $avgRating = 0;
