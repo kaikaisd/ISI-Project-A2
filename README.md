@@ -1,11 +1,13 @@
 # ISI-Project-A2
 
+This project is built by a team of Macao Polytechnic University Computer Sciences Students.
+
 ---
 # How to use
 1. clone this project to your pc
 2. copy `.env.example` to `.env`
 3. `php artisan key:generate`
-4. Run `alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'` in your terminal if `sail` command not found
+4. Run `alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'` in your terminal if `sail` command is not found
 5. `sail up -d` For set the docker container
 6. `sail npm i` For install the node modules
 7. `sail npm run dev` For run the development mode
@@ -20,17 +22,7 @@
 
 ## Requirement
 - ### Frontend
-    - vue.js
-    - UI Framework to be discussed
+    - Bootstrap
 
 - ### Backend
-    - Laravel w/ Lunar
-
-## Documents
-- ### Backend
-    - [Lunar](https://docs.lunarphp.io/)
-    - [Laravel structure](https://learnku.com/docs/laravel/9.x)
-
-- ### FrontEnd
-    - 
-
+    - Laravel
